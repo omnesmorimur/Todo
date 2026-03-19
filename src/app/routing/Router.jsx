@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { BASE_URL } from "../../shared/constans"
 
 const getCurrentPath = () => {
@@ -33,7 +33,7 @@ const matchPath = (path, route) => {
 export const useRoute = () => {
   const [path, setPath] = useState(getCurrentPath())
 
-  useState(() => {
+  useEffect(() => {
     const onLocationChange = () => {
       setPath(getCurrentPath())
     }
