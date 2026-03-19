@@ -23,7 +23,7 @@ const KotletanPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>🥩 Котлетан</h1>
+        <h1 className={styles.title}>Лёша лох))0)</h1>
         
       
         
