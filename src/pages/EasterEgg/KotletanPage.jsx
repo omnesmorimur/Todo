@@ -23,7 +23,7 @@ const KotletanPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Ты всё ещё лох, сасай)00)0</h1>
+        <h1 className={styles.title}>Лёша сбрей усы и пойми гдеты))0)0</h1>
 
 
 
