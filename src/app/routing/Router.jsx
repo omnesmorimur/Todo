@@ -50,7 +50,6 @@ export const useRoute = () => {
 const Router = (props) => {
   const { routes } = props
   const path = useRoute()
-  // const Page = routes[path] ?? routes['*']
 
   for (const route in routes) {
     const params = matchPath(path, route)

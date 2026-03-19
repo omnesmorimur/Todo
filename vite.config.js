@@ -7,11 +7,11 @@ export default defineConfig((mode) => {
   const isProd = mode === 'production'
   return {
     base: isProd ? '/Todo/' : '/',
-    plugins: [react()],
-    resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  }
   }
 })
