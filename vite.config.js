@@ -6,7 +6,7 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig((mode) => {
   const isProd = mode === 'production'
   return {
-    base: isProd ? '/todo-react/' : '/',
+    base: isProd ? '/Todo/' : '/',
     plugins: [react()],
     resolve: {
       alias: {
