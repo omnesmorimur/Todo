@@ -1,45 +1,36 @@
 .container {
-    min-height: 100vh;
+    min-height: 90vh;
+    padding: 20px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+}
+
+.content {
+    min-height: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    border: var(--border);
-    border-radius: var(--border-radius);
-  }
-  
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .title {
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 10px 0;
+    background-color: var(--color-gray-1);
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    &:focus {
+        outline: none;
+        border-color: var(--color-dark-2);
+        background-color: var(--color-white);
+    }
+}
+
+.title {
     font-size: 3rem;
-    color: white;
+    color: #000000;
     text-align: center;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-  
-  .gif {
-    max-width: 100%;
-    width: 300px;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  }
-  
-  @keyframes glow {
-    from {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073;
-    }
-    to {
-      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6;
-    }
-  }
+}
+

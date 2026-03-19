@@ -76,7 +76,7 @@ const TaskPage = (props) => {
                             window.history.back()
                         }}>
                             <Button2
-                                variant="outline"
+                                variant="secondary"
                                 size="small"
                             >
                                 ← Назад к списку задач

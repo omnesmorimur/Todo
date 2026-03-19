@@ -9,7 +9,7 @@ const KotletanPage = () => {
 
   useEffect(() => {
     const path = window.location.pathname.split('/').pop()?.toLowerCase()
-    
+
     if (path && SECRET_PATHS.includes(path)) {
       setShowSecret(true)
       window.history.replaceState({}, '', '/Todo/')
@@ -17,19 +17,19 @@ const KotletanPage = () => {
   }, [])
 
   if (!showSecret) {
-    return null 
+    return null
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Лёша лох))0)</h1>
-        
-      
-        
+        <h1 className={styles.title}>Ты всё ещё лох, сасай)00)0</h1>
+
+
+
         <Button2
-          variant="outline"
-          size="small"
+          variant="primary"
+          size="medium"
           onClick={() => window.history.back()}
         >
           ← Смирись

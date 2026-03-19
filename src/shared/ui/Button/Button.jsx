@@ -1,4 +1,3 @@
-// shared/ui/Button/Button.jsx
 import styles from './Button.module.scss'
 
 const Button2 = (props) => {

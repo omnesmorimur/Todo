@@ -276,15 +276,14 @@
     }
   }
 
-  // Поддержка safe area на iPhone с вырезом
   padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 .saveButton {
   padding: 12px 24px;
-  background-color: var(--color-dark-1);
-  color: var(--color-white);
-  border: none;
+  background-color:var(--color-white) ;
+  color: var(--color-dark-1);
+  border: var(--border2);
   border-radius: var(--border-radius);
   font-size: 1rem;
   font-weight: 500;
@@ -298,15 +297,6 @@
     white-space: normal;
   }
 
-  &:hover:not(:disabled) {
-    background-color: var(--color-dark-2);
-    transform: translateY(-1px);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(1px);
-  }
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -317,7 +307,7 @@
   a {
     display: inline-block;
     padding: 12px 0;
-    color: var(--color-gray-4);
+    color: var(--color-gray-2);
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
@@ -347,7 +337,13 @@
     }
   }
 }
-
+.backLink {
+  a {
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}
 .successRow {
   position: absolute;
   bottom: 100px;

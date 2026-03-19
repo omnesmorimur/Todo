@@ -46,7 +46,7 @@ const ToDoDaily = () => {
   useEffect(() => {
     const savedLastReset = localStorage.getItem('dailyTasksLastReset')
     const currentDate = getCurrentLocalDate()
-    
+
     if (savedLastReset !== currentDate) {
       resetDailyTasks()
     }
@@ -91,7 +91,7 @@ const ToDoDaily = () => {
     e.preventDefault()
     const trimmedTitle = newTaskTitle.trim()
     if (!trimmedTitle) {
-      setError('Название задачи не может быть пустым')
+      setError('')
       return
     }
 
@@ -210,7 +210,7 @@ const ToDoDaily = () => {
         </span>
         <Button2
           variant="primary"
-          size="small"
+          size="medium"
           onClick={forceReset}
         >
           🔄 Принудительный сброс отметок
