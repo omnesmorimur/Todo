@@ -1,0 +1,90 @@
+.button {
+  border: 0.2rem solid black;
+  color: rgb(0, 0, 0);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-inline: 0.313rem;
+  font-family: 'Roboto Condensed';
+  font-size: clamp(1.125rem, 0.98rem + 0.69vw, 1.5rem);
+  font-weight: 600;
+  padding: .5rem;
+  line-height: 1;
+  text-decoration: none;
+  text-align: left;
+  text-transform: uppercase;
+  justify-content: space-around;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
+
+  &:not(:disabled) {
+    &:active {
+      transform: translateY(.25rem);
+    }
+  }
+
+  &:disabled {
+    background-color: var(--color-gray-3);
+    border-color: var(--color-gray-3);
+    cursor: not-allowed;
+  }
+
+  @media (max-width:330px) {
+    margin-right: 0;
+    margin-bottom: 0;
+    gap: 0;
+
+  }
+}
+
+// Variants
+// 
+.primary {
+  background-color: var(--color-white);
+  color: var(--color-dark-1);
+
+  &:hover:not(:disabled) {
+    background-color: var(--bg-azure);
+  }
+}
+
+.secondary {
+  background-color: var(--color-gray-2);
+  color: var(--color-dark-1);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-gray-3);
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--color-dark-1);
+  border: 1px solid black;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-gray-1);
+  }
+}
+
+// Sizes
+.small {
+  height: var(--input-height);
+  padding: .5rem .75rem;
+  font-size: 0.85rem;
+}
+
+.medium {
+  height: var(--input-height);
+  padding: 0 16px;
+  font-size: 0.95rem;
+  border-radius: var(--border-radius);
+}
+
+.large {
+  height: 48px;
+  padding: 0 24px;
+  font-size: 1.1rem;
+  border-radius: var(--border-radius);
+}

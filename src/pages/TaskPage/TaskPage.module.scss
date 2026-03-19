@@ -1,0 +1,511 @@
+// .taskPage {
+//   max-width: 800px;
+//   min-width: 390px;
+//   height: 90%;
+//   margin: 0 auto;
+//   padding: 30px 20px;
+//   background-color: var(--color-white);
+//   border: var(--border);
+//   border-radius: var(--border-radius);
+//   box-shadow: var(--box-shadow);
+// }
+
+// .title {
+//   margin: 0 0 20px 0;
+//   font-size: 1.8rem;
+//   color: var(--color-dark-1);
+//   word-break: break-word;
+// }
+
+// .status {
+//   margin-bottom: 20px;
+// }
+
+// .statusBadge {
+//   display: inline-block;
+//   padding: 6px 12px;
+//   border-radius: 20px;
+//   font-size: 0.9rem;
+//   font-weight: 500;
+
+//   &.completed {
+//     background-color: #e8f5e9;
+//     color: #2e7d32;
+//   }
+
+//   &.pending {
+//     background-color: #fff3e0;
+//     color: #ef6c00;
+//   }
+// }
+
+// .commentsSection {
+//   margin-bottom: 30px; 
+// }
+
+// .commentsTitle {
+//   margin: 0 0 15px 0;
+//   font-size: 1.2rem;
+//   color: var(--color-dark-2);
+// }
+
+// .commentsTextarea {
+//   width: 100%;
+//   height: 100%;
+//   min-height: 60dvh;
+
+//   padding: 12px;
+//   border: var(--border);
+//   border-radius: var(--border-radius);
+//   font-family: inherit;
+//   font-size: 1rem;
+//   line-height: 1.5;
+//   resize: none;
+//   background-color: var(--color-gray-1);
+
+//   &:focus {
+//     outline: none;
+//     border-color: var(--color-dark-2);
+//     background-color: var(--color-white);
+//   }
+// }
+
+// .actionsRow {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-top: 10px;
+//   width: 100%;
+// }
+
+// .saveButton {
+//   padding: 8px 16px;
+//   background-color: var(--color-dark-1);
+//   color: var(--color-white);
+//   border: none;
+//   border-radius: var(--border-radius);
+//   font-size: 0.95rem;
+//   cursor: pointer;
+
+//   &:hover:not(:disabled) {
+//     background-color: var(--color-dark-2);
+//   }
+
+//   &:disabled {
+//     opacity: 0.5;
+//     cursor: not-allowed;
+//   }
+// }
+
+// .backLink {
+//   a {
+//     color: var(--color-gray-4);
+//     text-decoration: none;
+//     font-size: 0.95rem;
+
+//     &:hover {
+//       color: var(--color-dark-1);
+//       text-decoration: underline;
+//     }
+//   }
+// }
+
+
+// .successRow {
+//   display: flex;
+//   justify-content: flex-end; 
+//   margin-top: 8px;
+//   width: 100%;
+// }
+
+// .saveSuccess {
+//   color: #2e7d32;
+//   font-size: 0.9rem;
+//   animation: fadeIn 0.3s ease;
+
+// }
+
+// .loading,
+// .error {
+//   text-align: center;
+//   padding: 40px;
+//   font-size: 1.2rem;
+//   color: var(--color-gray-4);
+// }
+
+// .error {
+//   color: var(--color-orangered);
+// }
+// @media (max-width: 500px) {
+//   .taskPage {
+//     padding: .5rem 1rem;
+//     overflow: scroll;
+//     min-width: auto;
+//   }
+//   .commentsTextarea {
+//     max-height: 70dvh;
+//     min-height: 60dvh;
+//     height: 70dvh;
+//   }
+//   .commentsSection {
+//     margin-bottom: 0; 
+//   }
+// }
+
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateY(-5px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
+
+.taskPage {
+  width: 100%;
+  max-width: 800px;
+  min-width: 360px;
+  height: calc(100dvh - 60px); 
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  
+  background-color: var(--color-white);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden; 
+
+  & > * {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.title {
+  font-size: 1.8rem;
+  color: var(--color-dark-1);
+  word-break: break-word;
+  margin: 0;
+  padding: 20px 20px 10px 20px;
+  flex-shrink: 0; 
+  background-color: var(--color-white);
+}
+
+.status {
+  padding: 0 20px 10px 20px;
+  flex-shrink: 0;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  &.completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+  }
+}
+
+.commentsSection {
+  flex: 1 1 auto; 
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  min-height: 0; 
+  overflow: hidden; 
+}
+
+.commentsTitle {
+  font-size: 1.2rem;
+  color: var(--color-dark-2);
+  margin: 0 0 10px 0;
+  flex-shrink: 0;
+}
+
+.commentsTextarea {
+  flex: 1 1 auto; 
+  width: 100%;
+  padding: 12px;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: none;
+  background-color: var(--color-gray-1);
+  box-sizing: border-box;
+  overflow-y: auto; 
+  min-height: 0; 
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-dark-2);
+    background-color: var(--color-white);
+  }
+}
+
+.actionsRow {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-gray-2);
+  
+  @media (max-width: 500px) {
+    flex-direction: column;
+    
+    & > * {
+      width: 100%;
+    }
+  }
+
+  // Поддержка safe area на iPhone с вырезом
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+.saveButton {
+  padding: 12px 24px;
+  background-color: var(--color-dark-1);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 14px 20px;
+    white-space: normal;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-dark-2);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.backLink {
+  a {
+    display: inline-block;
+    padding: 12px 0;
+    color: var(--color-gray-4);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-dark-1);
+      text-decoration: underline;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    width: 100%;
+    text-align: center;
+    order: 1;
+
+    a {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--color-gray-1);
+      border-radius: var(--border-radius);
+      
+      &:hover {
+        background-color: var(--color-gray-2);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.successRow {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  
+  @media (max-width: 500px) {
+    bottom: 20dvh; 
+  }
+}
+
+.saveSuccess {
+  color: #2e7d32;
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  background-color: #e8f5e9;
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  animation: fadeIn 0.3s ease;
+  white-space: nowrap;
+  
+  @media (max-width: 500px) {
+    white-space: normal;
+    text-align: center;
+    max-width: 90vw;
+  }
+}
+
+.loading,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  font-size: 1.2rem;
+  color: var(--color-gray-4);
+  text-align: center;
+}
+
+.error {
+  color: var(--color-orangered);
+}
+
+// Мобильная адаптация
+@media (max-width: 500px) {
+  .taskPage {
+    min-width: auto;
+    border-radius: 0; 
+    border-left: none;
+    border-right: none;
+    height: 100vh;
+    height: 100dvh;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    padding: 16px 16px 8px 16px;
+  }
+  
+  .status {
+    padding: 0 16px 8px 16px;
+  }
+  
+  .commentsSection {
+    padding: 0 16px;
+  }
+  
+  .commentsTextarea {
+    font-size: 16px; 
+    padding: 10px;
+  }
+  
+  .actionsRow {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+}
+
+// Для очень маленьких экранов
+@media (max-width: 360px) {
+  .taskPage {
+    min-width: 280px;
+  }
+  
+  .title {
+    font-size: 1.3rem;
+    padding: 12px 12px 6px 12px;
+  }
+  
+  .commentsSection {
+    padding: 0 12px;
+  }
+  
+  .actionsRow {
+    padding: 10px 12px;
+  }
+  
+  .saveButton {
+    padding: 12px 16px;
+  }
+}
+
+// Для больших экранов iPhone Pro Max и новых моделей 2025
+@media (max-width: 430px) and (max-height: 900px) {
+  .title {
+    font-size: 2rem;
+    padding: 24px 24px 12px 24px;
+  }
+  
+  .commentsSection {
+    padding: 0 24px;
+  }
+  
+  .commentsTextarea {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .actionsRow {
+    padding: 20px 24px;
+  }
+  
+  .saveButton {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+  }
+  
+  .backLink a {
+    font-size: 1.1rem;
+  }
+}
+
+// Поддержка safe areas
+@supports (padding: max(0px)) {
+  .taskPage {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .title {
+    padding-top: max(20px, env(safe-area-inset-top));
+  }
+  
+  .actionsRow {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
