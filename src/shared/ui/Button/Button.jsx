@@ -7,7 +7,7 @@ const Button2 = (props) => {
         children,
         isDisabled,
         onClick,
-        variant = 'primary', // primary, secondary, outline, 
+        variant = 'primary', // primary, secondary 
         size = 'medium', // small, medium, large
     } = props
 
