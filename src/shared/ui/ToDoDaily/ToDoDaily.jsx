@@ -11,23 +11,26 @@ const ToDoDaily = () => {
   const getResetTimeUTC = () => {
     const mskOffset = 3
     let utcHour = RESET_HOUR_MSK - mskOffset
-    
     let dayAdjustment = 0
+
     if (utcHour < 0) {
       utcHour += 24
       dayAdjustment = -1
     }
-    
+
     return { utcHour, utcMinute: RESET_MINUTE, dayAdjustment }
   }
 
-  const getCurrentUTCDate = () => {
+  const getCurrentMSKDate = () => {
     const now = new Date()
-    return now.toUTCString().split(' ').slice(0, 4).join(' ')
+    const mskTime = new Date(now.getTime() + (3 * 60 * 60 * 1000))
+    return mskTime.toISOString().split('T')[0]
   }
 
   const resetDailyTasks = () => {
-    const currentDate = getCurrentUTCDate()
+    const currentDate = getCurrentMSKDate()
+    console.log(`[Reset] Сброс задач в ${new Date().toLocaleString()} MSK, дата сброса: ${currentDate}`)
+
     setDailyTasks(prevTasks =>
       prevTasks.map(task => ({ ...task, isDone: false }))
     )
@@ -37,11 +40,14 @@ const ToDoDaily = () => {
   const [dailyTasks, setDailyTasks] = useState(() => {
     const savedDailyTasks = localStorage.getItem('dailyTasks')
     const savedLastReset = localStorage.getItem('dailyTasksLastReset')
-    const currentDate = getCurrentUTCDate()
+    const currentDate = getCurrentMSKDate()
+
+    console.log(`[Init] Текущая дата MSK: ${currentDate}, последний сброс: ${savedLastReset}`)
 
     if (savedDailyTasks) {
       const parsedTasks = JSON.parse(savedDailyTasks)
       if (savedLastReset !== currentDate) {
+        console.log('[Init] Выполняем сброс при загрузке')
         return parsedTasks.map(task => ({ ...task, isDone: false }))
       }
       return parsedTasks
@@ -56,9 +62,10 @@ const ToDoDaily = () => {
     localStorage.setItem('dailyTasks', JSON.stringify(dailyTasks))
   }, [dailyTasks])
 
+  // Проверка при загрузке
   useEffect(() => {
     const savedLastReset = localStorage.getItem('dailyTasksLastReset')
-    const currentDate = getCurrentUTCDate()
+    const currentDate = getCurrentMSKDate()
 
     if (savedLastReset !== currentDate) {
       resetDailyTasks()
@@ -69,7 +76,7 @@ const ToDoDaily = () => {
     const scheduleReset = () => {
       const now = new Date()
       const { utcHour, utcMinute, dayAdjustment } = getResetTimeUTC()
-      
+
       let nextReset = new Date(Date.UTC(
         now.getUTCFullYear(),
         now.getUTCMonth(),
@@ -79,25 +86,30 @@ const ToDoDaily = () => {
         0,
         0
       ))
-      
+
       if (dayAdjustment !== 0) {
         nextReset.setUTCDate(nextReset.getUTCDate() + dayAdjustment)
       }
-      
+
       if (now >= nextReset) {
         nextReset.setUTCDate(nextReset.getUTCDate() + 1)
       }
-      
+
       const timeUntilReset = nextReset.getTime() - now.getTime()
-      
+      const minutesUntilReset = Math.floor(timeUntilReset / 1000 / 60)
+
+      console.log(`[Timer] Следующий сброс через ${minutesUntilReset} минут (${nextReset.toLocaleString()} UTC)`)
+      console.log(`[Timer] Это соответствует ${new Date(nextReset.getTime() + (3 * 60 * 60 * 1000)).toLocaleString()} MSK`)
+
       const timer = setTimeout(() => {
+        console.log('[Timer] ⏰ Время сброса наступило!')
         resetDailyTasks()
-        scheduleReset() 
+        scheduleReset()
       }, timeUntilReset)
-      
+
       return timer
     }
-    
+
     const timer = scheduleReset()
     return () => clearTimeout(timer)
   }, [])
@@ -140,11 +152,7 @@ const ToDoDaily = () => {
 
   const completedCount = dailyTasks.filter(task => task.isDone).length
 
-  const formatResetTime = () => {
-    const hours = RESET_HOUR_MSK.toString().padStart(2, '0')
-    const minutes = RESET_MINUTE.toString().padStart(2, '0')
-    return `${hours}:${minutes} MSK (Московское время)`
-  }
+ 
 
   const forceReset = () => {
     if (confirm('Принудительно сбросить отметки о выполнении задач?')) {
@@ -232,7 +240,8 @@ const ToDoDaily = () => {
 
       <div className={styles.dailyFooter}>
         <span className={styles.dailyResetInfo}>
-          <p>Отметки сбрасываются каждый день в {formatResetTime()}</p>
+          {/* <p>Отметки сбрасываются каждый день в {formatResetTime()}</p> */}
+          <p>Отметки сбрасываются каждый день в 7.00 MSK</p>
         </span>
         <Button2
           variant="primary"
