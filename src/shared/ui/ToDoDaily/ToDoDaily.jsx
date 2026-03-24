@@ -136,11 +136,21 @@ const ToDoDaily = () => {
 
   const addDailyTask = (e) => {
     e.preventDefault()
-    
-    addTask(trimmedTitle, () => {
-      setNewTaskTitle('')
+    const trimmedTitle = newTaskTitle.trim()
+    if (!trimmedTitle) {
       setError('')
-    })
+      return
+    }
+  
+    const newTask = {
+      id: `daily-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      title: trimmedTitle,
+      isDone: false
+    }
+  
+    setDailyTasks([...dailyTasks, newTask])
+    setNewTaskTitle('')
+    setError('')
   }
 
   const deleteDailyTask = (taskId) => {
