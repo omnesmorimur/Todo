@@ -1,6 +1,5 @@
 .daily {
   width: 340px;
-  height: 100%;
   border: var(--border);
   margin-inline: auto;
   padding: 8px;
@@ -13,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-block: 4px 22px;
   margin-inline: 4px;
 }
 
@@ -31,14 +30,22 @@
 
 .dailyForm {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  gap: 16px;
 }
-.dailyInput{
+
+.dailyInput {
+  padding-inline: .6rem;
   font-size: 15px;
   height: 40px;
+  width: 60%;
+  border: var(--border);
+  border-color: var(--color-dark-2);
+  border-radius: var(--border-radius);
 }
+
 .dailyList {
   display: grid;
   row-gap: 1rem;
@@ -51,7 +58,7 @@
   display: flex;
   align-items: center;
   column-gap: 12px;
-  padding: .125rem .35rem;
+  padding: .25rem .35rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -64,7 +71,7 @@
 }
 
 
-.dailyCheckbox  {
+.dailyCheckbox {
   flex-shrink: 0;
   appearance: none;
   position: relative;
@@ -103,47 +110,48 @@
 
 .dailyDeleteButton {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
+  margin-left: auto;
   padding: 0;
-  background: none;
+  color: var(--color-gray-4);
+  background-color: transparent;
   border: none;
-  border-radius: 50%;
+  border-radius: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
 
-  svg {
-    transition: transform 0.2s ease;
-  }
-  
   &:hover {
-    svg {
-      transform: scale(1.1);
-      
-      path {
-        stroke: #ef4444;
-      }
-    }
+    color: var(--color-white);
+    background-color: var(--color-dark-1);
   }
-  
+
   &:active {
-    transform: translateY(2px);
+    scale: 1.05;
   }
-  
+
   &:focus-visible {
     outline: 2px solid var(--color-orangered);
     outline-offset: 2px;
     border-radius: 4px;
+  }
+
+  * {
+    pointer-events: none;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
 
 .dailyLabel {
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .dailyFooter {
@@ -151,7 +159,8 @@
   text-align: center;
   display: flex;
   gap: 12px;
-  flex-direction: column;  margin-bottom: 1rem;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .dailyResetInfo {
@@ -194,10 +203,16 @@
     margin-top: 20px;
   }
 
-  .dailyInput{
+  .dailyInput {
     font-size: 16px;
-    height: 40px;
-    padding-inline: 4px;
+    height: 38px;
+    padding-inline: 12px;
+    min-width: 70%;
+  }
+  .dailyForm{
+    font-size: 16px;
+    height: 38px;
+    padding-inline: 12px;
     min-width: 70%;
   }
 }

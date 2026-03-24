@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import styles from './ToDoDaily.module.scss'
 import Button2 from '../Button/Button'
+import Field from '@/shared/ui/Field'
 
 const ToDoDaily = () => {
   const defaultDailyTasks = []
@@ -42,12 +43,9 @@ const ToDoDaily = () => {
     const savedLastReset = localStorage.getItem('dailyTasksLastReset')
     const currentDate = getCurrentMSKDate()
 
-    console.log(`[Init] Текущая дата MSK: ${currentDate}, последний сброс: ${savedLastReset}`)
-
     if (savedDailyTasks) {
       const parsedTasks = JSON.parse(savedDailyTasks)
       if (savedLastReset !== currentDate) {
-        console.log('[Init] Выполняем сброс при загрузке')
         return parsedTasks.map(task => ({ ...task, isDone: false }))
       }
       return parsedTasks
@@ -58,16 +56,23 @@ const ToDoDaily = () => {
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [error, setError] = useState('')
 
+  const trimmedTitle = newTaskTitle.trim()
+  const isTitleEmpty = trimmedTitle.length === 0
+
   useEffect(() => {
     localStorage.setItem('dailyTasks', JSON.stringify(dailyTasks))
   }, [dailyTasks])
 
-  // Проверка при загрузке
+  // Проверка при загрузке с учётом времени
   useEffect(() => {
     const savedLastReset = localStorage.getItem('dailyTasksLastReset')
     const currentDate = getCurrentMSKDate()
+    
+    const now = new Date()
+    const mskNow = new Date(now.getTime() + (3 * 60 * 60 * 1000))
+    const currentMskHour = mskNow.getUTCHours()
 
-    if (savedLastReset !== currentDate) {
+    if (savedLastReset !== currentDate && currentMskHour >= RESET_HOUR_MSK) {
       resetDailyTasks()
     }
   }, [])
@@ -76,7 +81,7 @@ const ToDoDaily = () => {
     const scheduleReset = () => {
       const now = new Date()
       const { utcHour, utcMinute, dayAdjustment } = getResetTimeUTC()
-
+  
       let nextReset = new Date(Date.UTC(
         now.getUTCFullYear(),
         now.getUTCMonth(),
@@ -86,30 +91,34 @@ const ToDoDaily = () => {
         0,
         0
       ))
-
+  
       if (dayAdjustment !== 0) {
         nextReset.setUTCDate(nextReset.getUTCDate() + dayAdjustment)
       }
-
+  
       if (now >= nextReset) {
         nextReset.setUTCDate(nextReset.getUTCDate() + 1)
       }
-
+  
       const timeUntilReset = nextReset.getTime() - now.getTime()
       const minutesUntilReset = Math.floor(timeUntilReset / 1000 / 60)
-
-      console.log(`[Timer] Следующий сброс через ${minutesUntilReset} минут (${nextReset.toLocaleString()} UTC)`)
-      console.log(`[Timer] Это соответствует ${new Date(nextReset.getTime() + (3 * 60 * 60 * 1000)).toLocaleString()} MSK`)
-
+      const hoursUntilReset = Math.floor(minutesUntilReset / 60)
+      const remainingMinutes = minutesUntilReset % 60
+  
+      const mskResetTime = new Date(nextReset.getTime() + (3 * 60 * 60 * 1000))
+      const resetHours = mskResetTime.getUTCHours().toString().padStart(2, '0')
+      const resetMinutes = mskResetTime.getUTCMinutes().toString().padStart(2, '0')
+  
+      console.log(`[Timer] Следующий сброс через ${hoursUntilReset}ч ${remainingMinutes}м (в ${resetHours}:${resetMinutes} МСК)`)
+  
       const timer = setTimeout(() => {
-        console.log('[Timer] ⏰ Время сброса наступило!')
         resetDailyTasks()
         scheduleReset()
       }, timeUntilReset)
-
+  
       return timer
     }
-
+  
     const timer = scheduleReset()
     return () => clearTimeout(timer)
   }, [])
@@ -127,21 +136,11 @@ const ToDoDaily = () => {
 
   const addDailyTask = (e) => {
     e.preventDefault()
-    const trimmedTitle = newTaskTitle.trim()
-    if (!trimmedTitle) {
+    
+    addTask(trimmedTitle, () => {
+      setNewTaskTitle('')
       setError('')
-      return
-    }
-
-    const newTask = {
-      id: `daily-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      title: trimmedTitle,
-      isDone: false
-    }
-
-    setDailyTasks([...dailyTasks, newTask])
-    setNewTaskTitle('')
-    setError('')
+    })
   }
 
   const deleteDailyTask = (taskId) => {
@@ -152,11 +151,21 @@ const ToDoDaily = () => {
 
   const completedCount = dailyTasks.filter(task => task.isDone).length
 
- 
-
   const forceReset = () => {
     if (confirm('Принудительно сбросить отметки о выполнении задач?')) {
       resetDailyTasks()
+    }
+  }
+
+  const onInput = (event) => {
+    const { value } = event.target
+    const hasOnlySpaces = value.length > 0 && value.trim().length === 0
+    
+    setNewTaskTitle(value)
+    if (hasOnlySpaces) {
+      setError('Название задачи не может состоять только из пробелов')
+    } else {
+      setError('')
     }
   }
 
@@ -170,24 +179,22 @@ const ToDoDaily = () => {
       </div>
 
       <form onSubmit={addDailyTask} className={styles.dailyForm}>
-        <input
-          type="text"
+        <Field
+          className={styles.field}
+          label="Новая задача"
+          id="new-daily-task"
           value={newTaskTitle}
-          onChange={(e) => {
-            setNewTaskTitle(e.target.value)
-            setError('')
-          }}
-          placeholder="Новая ежедневная задача..."
-          className={styles.dailyInput}
+          error={error}
+          onInput={onInput}
         />
         <Button2
           type="submit"
           variant="primary"
           size="medium"
+          isDisabled={isTitleEmpty}
         >
           Добавить
         </Button2>
-        {error && <span className={styles.dailyError}>{error}</span>}
       </form>
 
       {dailyTasks.length > 0 ? (
@@ -240,7 +247,6 @@ const ToDoDaily = () => {
 
       <div className={styles.dailyFooter}>
         <span className={styles.dailyResetInfo}>
-          {/* <p>Отметки сбрасываются каждый день в {formatResetTime()}</p> */}
           <p>Отметки сбрасываются каждый день в 7.00 MSK</p>
         </span>
         <Button2

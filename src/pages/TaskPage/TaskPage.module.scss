@@ -1,184 +1,22 @@
-// .taskPage {
-//   max-width: 800px;
-//   min-width: 390px;
-//   height: 90%;
-//   margin: 0 auto;
-//   padding: 30px 20px;
-//   background-color: var(--color-white);
-//   border: var(--border);
-//   border-radius: var(--border-radius);
-//   box-shadow: var(--box-shadow);
-// }
-
-// .title {
-//   margin: 0 0 20px 0;
-//   font-size: 1.8rem;
-//   color: var(--color-dark-1);
-//   word-break: break-word;
-// }
-
-// .status {
-//   margin-bottom: 20px;
-// }
-
-// .statusBadge {
-//   display: inline-block;
-//   padding: 6px 12px;
-//   border-radius: 20px;
-//   font-size: 0.9rem;
-//   font-weight: 500;
-
-//   &.completed {
-//     background-color: #e8f5e9;
-//     color: #2e7d32;
-//   }
-
-//   &.pending {
-//     background-color: #fff3e0;
-//     color: #ef6c00;
-//   }
-// }
-
-// .commentsSection {
-//   margin-bottom: 30px; 
-// }
-
-// .commentsTitle {
-//   margin: 0 0 15px 0;
-//   font-size: 1.2rem;
-//   color: var(--color-dark-2);
-// }
-
-// .commentsTextarea {
-//   width: 100%;
-//   height: 100%;
-//   min-height: 60dvh;
-
-//   padding: 12px;
-//   border: var(--border);
-//   border-radius: var(--border-radius);
-//   font-family: inherit;
-//   font-size: 1rem;
-//   line-height: 1.5;
-//   resize: none;
-//   background-color: var(--color-gray-1);
-
-//   &:focus {
-//     outline: none;
-//     border-color: var(--color-dark-2);
-//     background-color: var(--color-white);
-//   }
-// }
-
-// .actionsRow {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin-top: 10px;
-//   width: 100%;
-// }
-
-// .saveButton {
-//   padding: 8px 16px;
-//   background-color: var(--color-dark-1);
-//   color: var(--color-white);
-//   border: none;
-//   border-radius: var(--border-radius);
-//   font-size: 0.95rem;
-//   cursor: pointer;
-
-//   &:hover:not(:disabled) {
-//     background-color: var(--color-dark-2);
-//   }
-
-//   &:disabled {
-//     opacity: 0.5;
-//     cursor: not-allowed;
-//   }
-// }
-
-// .backLink {
-//   a {
-//     color: var(--color-gray-4);
-//     text-decoration: none;
-//     font-size: 0.95rem;
-
-//     &:hover {
-//       color: var(--color-dark-1);
-//       text-decoration: underline;
-//     }
-//   }
-// }
-
-
-// .successRow {
-//   display: flex;
-//   justify-content: flex-end; 
-//   margin-top: 8px;
-//   width: 100%;
-// }
-
-// .saveSuccess {
-//   color: #2e7d32;
-//   font-size: 0.9rem;
-//   animation: fadeIn 0.3s ease;
-
-// }
-
-// .loading,
-// .error {
-//   text-align: center;
-//   padding: 40px;
-//   font-size: 1.2rem;
-//   color: var(--color-gray-4);
-// }
-
-// .error {
-//   color: var(--color-orangered);
-// }
-// @media (max-width: 500px) {
-//   .taskPage {
-//     padding: .5rem 1rem;
-//     overflow: scroll;
-//     min-width: auto;
-//   }
-//   .commentsTextarea {
-//     max-height: 70dvh;
-//     min-height: 60dvh;
-//     height: 70dvh;
-//   }
-//   .commentsSection {
-//     margin-bottom: 0; 
-//   }
-// }
-
-
-// @keyframes fadeIn {
-//   from {
-//     opacity: 0;
-//     transform: translateY(-5px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// }
-
 .taskPage {
-  width: 100%;
-  max-width: 800px;
+  width: 100vw; 
+  max-width: 700px;
   min-width: 360px;
-  height: calc(100dvh - 60px); 
+  height: calc(100dvh - 60px);
   margin: 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
+ 
+  @media (min-width: 801px) {
+    width: calc(100vw - 60px); 
+  }
   
   background-color: var(--color-white);
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  overflow: hidden; 
+  overflow: hidden;
 
   & > * {
     width: 100%;

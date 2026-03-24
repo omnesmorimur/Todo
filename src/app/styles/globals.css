@@ -4,9 +4,10 @@ body {
   align-items: start;
   min-height: 100vh;
   padding: 30px 30px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Roboto Condensed";
   background-color: var(--color-gray-1);
-
+  font-weight: 400;
+  
   @media (max-width: 800px) {
     padding: 0;
   }

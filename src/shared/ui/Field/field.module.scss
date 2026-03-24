@@ -2,17 +2,19 @@
   position: relative;
   caret-shape: block;
   caret-color: orangered;
-
+  width: 100%;
+  
   &:has(.input:not(:placeholder-shown)) .label {
     color: var(--color-black);
-    scale: 0.7;
-    translate: -1.75em -2.6em;
+    scale: 0.8;
+    translate: -24px 2rem;
   }
-  
+
   &:has(.input:focus, .input:not(:placeholder-shown)) .label {
     color: var(--color-black);
-    scale: 0.7;
-    translate: -1.75em -2.6em;
+    scale: 0.8;
+    translate: -24px -2.6rem;
+    // translate: -1.75em -2.6em;
   }
 }
 
@@ -20,7 +22,7 @@
   position: absolute;
   top: 50%;
   left: 17px;
-  color: var(--color-gray-3);
+  color: var(--color-gray-4);
   translate: 0 -50%;
 
 }
@@ -34,6 +36,7 @@
   padding-inline: var(--fieldInputPaddingX);
   background-color: transparent;
   border: var(--border);
+  border-color: var(--color-dark-2);
   border-radius: var(--border-radius);
 
   &:hover,
@@ -54,8 +57,9 @@
       background-size: var(--fieldSeachInputIconSize);
       background-repeat: no-repeat;
     }
-   
+
   }
+
   &.isInvalid {
     border-color: red;
   }

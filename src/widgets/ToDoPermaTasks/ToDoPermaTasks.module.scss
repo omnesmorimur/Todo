@@ -1,0 +1,52 @@
+.perma {
+  width: 340px;
+  border: var(--border);
+  margin-inline: auto;
+  padding: 8px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
+}
+
+.header {
+  margin-bottom: 22px;
+  margin-inline: 4px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.form {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 1rem;
+}
+
+.field {
+  flex: 1;
+}
+
+.list {
+  display: grid;
+  row-gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.emptyMessage {
+  padding: 20px;
+  text-align: center;
+  color: var(--color-gray-4);
+}
+
+@media (max-width: 800px) {
+  .perma {
+    width: auto;
+    min-width: 404px;
+  }
+}
