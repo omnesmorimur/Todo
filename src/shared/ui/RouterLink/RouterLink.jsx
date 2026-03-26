@@ -9,7 +9,8 @@ const RouterLink = (props) => {
 
     const handleClick = (event) => {
         event.preventDefault()
-        window.history.pushState({}, '', to)
+        const fullPath = `${BASE_URL}${to}`.replace(/\/+/g, '/') // удаляем лишние слеши
+        window.history.pushState({}, '', fullPath)
         window.dispatchEvent(new PopStateEvent('popstate'))
     }
 
@@ -19,4 +20,5 @@ const RouterLink = (props) => {
         </a>
     )
 }
+
 export default RouterLink

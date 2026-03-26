@@ -1,29 +1,31 @@
-import Field from "@/shared/ui/Field"
-import { useContext } from "react"
-import { TasksContext } from "@/entities/todo"
+import { useContext, useState, memo, useCallback } from 'react';
+import { TasksContext } from '@/entities/todo';
+import Field from '@/shared/ui/Field';
 
-const SearchTaskForm =(props) => {
-  const {styles} = props
-  const {
-    searchQuery,
-    setSearchQuery,
-  } = useContext(TasksContext)
+const SearchTaskForm = memo(({ styles }) => {
+  const { setSearchQuery } = useContext(TasksContext);
+  const [value, setValue] = useState('');
 
-    return(
-        <form 
-        className={styles.form}
-        onSubmit={(event) => event.preventDefault()}
-        >
-          <Field 
-            className={styles.field}
-            label="Поиск задачи"
-            id="Search-task"
-            type="search"
-            value={searchQuery}
-            onInput={(event) => setSearchQuery(event.target.value)}
-          />
-      </form>
-    )
-}
+  const onInput = useCallback(
+    (e) => {
+      const newValue = e.target.value;
+      setValue(newValue);
+      setSearchQuery(newValue);
+    },
+    [setSearchQuery]
+  );
 
-export default SearchTaskForm
+  return (
+    <div className={styles.search}>
+      <Field
+        className={styles.field}
+        label="Поиск задач"
+        id="search-task"
+        value={value}
+        onInput={onInput}
+      />
+    </div>
+  );
+});
+
+export default SearchTaskForm;
