@@ -83,11 +83,11 @@ const DailyList = memo(({ tasks, onToggle, onDelete }) => (
   </ul>
 ));
 
-// --- Основной компонент (мемоизирован) ---
+// --- Основной компонент ---
 const ToDoDaily = memo(() => {
   const defaultDailyTasks = [];
-  const RESET_HOUR_MSK = 7;
-  const RESET_MINUTE = 0;
+  const RESET_HOUR_MSK = 20;
+  const RESET_MINUTE = 15;
 
   const getCurrentMSKDate = () => {
     const now = new Date();
@@ -101,31 +101,59 @@ const ToDoDaily = memo(() => {
     return mskTime.getUTCHours();
   };
 
+  // Функция для проверки, нужно ли сбрасывать задачи
+  const shouldResetTasks = (lastResetDate) => {
+    const currentDate = getCurrentMSKDate();
+    const currentHour = getCurrentMSKHour();
+    
+    // Если дата последнего сброса не сегодня И уже прошло 7 утра
+    return lastResetDate !== currentDate && currentHour >= RESET_HOUR_MSK;
+  };
+
   const [dailyTasks, setDailyTasks] = useState(() => {
     const saved = localStorage.getItem('dailyTasks');
     const lastReset = localStorage.getItem('dailyTasksLastReset');
-    const currentDate = getCurrentMSKDate();
-    const currentHour = getCurrentMSKHour();
-
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (lastReset !== currentDate && currentHour >= RESET_HOUR_MSK) {
-        return parsed.map((task) => ({ ...task, isDone: false }));
-      }
-      return parsed;
+    
+    if (!saved) {
+      return defaultDailyTasks;
     }
-    return defaultDailyTasks;
+    
+    const parsed = JSON.parse(saved);
+    
+    // Если нужно сбросить — сбрасываем isDone, но сохраняем задачи
+    if (shouldResetTasks(lastReset)) {
+      const resetTasks = parsed.map((task) => ({ ...task, isDone: false }));
+      localStorage.setItem('dailyTasksLastReset', getCurrentMSKDate());
+      return resetTasks;
+    }
+    
+    return parsed;
   });
 
+  // Сохраняем задачи при каждом изменении
   useEffect(() => {
     localStorage.setItem('dailyTasks', JSON.stringify(dailyTasks));
   }, [dailyTasks]);
+
+  // Проверка при монтировании (на случай, если нужно сбросить)
+  useEffect(() => {
+    const lastReset = localStorage.getItem('dailyTasksLastReset');
+    
+    if (shouldResetTasks(lastReset)) {
+      setDailyTasks((prev) => {
+        const resetTasks = prev.map((task) => ({ ...task, isDone: false }));
+        localStorage.setItem('dailyTasksLastReset', getCurrentMSKDate());
+        return resetTasks;
+      });
+    }
+  }, []);
 
   // Таймер сброса
   useEffect(() => {
     const scheduleReset = () => {
       const now = new Date();
       const mskNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+      
       let nextResetMSK = new Date(
         Date.UTC(
           mskNow.getUTCFullYear(),
@@ -137,11 +165,14 @@ const ToDoDaily = memo(() => {
           0
         )
       );
+      
       if (mskNow >= nextResetMSK) {
         nextResetMSK.setUTCDate(nextResetMSK.getUTCDate() + 1);
       }
+      
       const nextResetUTC = new Date(nextResetMSK.getTime() - 3 * 60 * 60 * 1000);
       const timeUntilReset = nextResetUTC.getTime() - now.getTime();
+      
       const timer = setTimeout(() => {
         const currentDate = getCurrentMSKDate();
         setDailyTasks((prev) => {
@@ -151,8 +182,10 @@ const ToDoDaily = memo(() => {
         });
         scheduleReset();
       }, timeUntilReset);
+      
       return timer;
     };
+    
     const timer = scheduleReset();
     return () => clearTimeout(timer);
   }, []);
