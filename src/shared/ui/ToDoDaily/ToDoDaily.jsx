@@ -86,8 +86,8 @@ const DailyList = memo(({ tasks, onToggle, onDelete }) => (
 // --- Основной компонент ---
 const ToDoDaily = memo(() => {
   const defaultDailyTasks = [];
-  const RESET_HOUR_MSK = 20;
-  const RESET_MINUTE = 15;
+  const RESET_HOUR_MSK = 7;
+  const RESET_MINUTE = 0;
 
   const getCurrentMSKDate = () => {
     const now = new Date();
