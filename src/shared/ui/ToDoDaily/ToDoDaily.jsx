@@ -52,32 +52,32 @@ const DailyList = memo(({ tasks, onToggle, onDelete }) => (
   <ul className={styles.dailyList}>
     {tasks.map((task) => (
       <li key={task.id} className={styles.dailyItem}>
-        <input
-          className={styles.dailyCheckbox}
-          id={task.id}
-          type="checkbox"
-          checked={task.isDone}
-          onChange={({ target }) => onToggle(task.id, target.checked)}
-        />
         <label className={styles.dailyLabel} htmlFor={task.id}>
+          <input
+            className={styles.dailyCheckbox}
+            id={task.id}
+            type="checkbox"
+            checked={task.isDone}
+            onChange={({ target }) => onToggle(task.id, target.checked)}
+          />
           {task.title}
+          <button
+            className={styles.dailyDeleteButton}
+            onClick={() => onDelete(task.id)}
+            aria-label="Удалить задачу"
+            title="Удалить"
+          >
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M15 5L5 15M5 5L15 15"
+                stroke="#757575"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </label>
-        <button
-          className={styles.dailyDeleteButton}
-          onClick={() => onDelete(task.id)}
-          aria-label="Удалить задачу"
-          title="Удалить"
-        >
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M15 5L5 15M5 5L15 15"
-              stroke="#757575"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
       </li>
     ))}
   </ul>
@@ -105,7 +105,7 @@ const ToDoDaily = memo(() => {
   const shouldResetTasks = (lastResetDate) => {
     const currentDate = getCurrentMSKDate();
     const currentHour = getCurrentMSKHour();
-    
+
     // Если дата последнего сброса не сегодня И уже прошло 7 утра
     return lastResetDate !== currentDate && currentHour >= RESET_HOUR_MSK;
   };
@@ -113,20 +113,20 @@ const ToDoDaily = memo(() => {
   const [dailyTasks, setDailyTasks] = useState(() => {
     const saved = localStorage.getItem('dailyTasks');
     const lastReset = localStorage.getItem('dailyTasksLastReset');
-    
+
     if (!saved) {
       return defaultDailyTasks;
     }
-    
+
     const parsed = JSON.parse(saved);
-    
+
     // Если нужно сбросить — сбрасываем isDone, но сохраняем задачи
     if (shouldResetTasks(lastReset)) {
       const resetTasks = parsed.map((task) => ({ ...task, isDone: false }));
       localStorage.setItem('dailyTasksLastReset', getCurrentMSKDate());
       return resetTasks;
     }
-    
+
     return parsed;
   });
 
@@ -138,7 +138,7 @@ const ToDoDaily = memo(() => {
   // Проверка при монтировании (на случай, если нужно сбросить)
   useEffect(() => {
     const lastReset = localStorage.getItem('dailyTasksLastReset');
-    
+
     if (shouldResetTasks(lastReset)) {
       setDailyTasks((prev) => {
         const resetTasks = prev.map((task) => ({ ...task, isDone: false }));
@@ -153,7 +153,7 @@ const ToDoDaily = memo(() => {
     const scheduleReset = () => {
       const now = new Date();
       const mskNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
-      
+
       let nextResetMSK = new Date(
         Date.UTC(
           mskNow.getUTCFullYear(),
@@ -165,14 +165,14 @@ const ToDoDaily = memo(() => {
           0
         )
       );
-      
+
       if (mskNow >= nextResetMSK) {
         nextResetMSK.setUTCDate(nextResetMSK.getUTCDate() + 1);
       }
-      
+
       const nextResetUTC = new Date(nextResetMSK.getTime() - 3 * 60 * 60 * 1000);
       const timeUntilReset = nextResetUTC.getTime() - now.getTime();
-      
+
       const timer = setTimeout(() => {
         const currentDate = getCurrentMSKDate();
         setDailyTasks((prev) => {
@@ -182,10 +182,10 @@ const ToDoDaily = memo(() => {
         });
         scheduleReset();
       }, timeUntilReset);
-      
+
       return timer;
     };
-    
+
     const timer = scheduleReset();
     return () => clearTimeout(timer);
   }, []);

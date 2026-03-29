@@ -47,7 +47,6 @@ const PermaForm = memo(({ onAddTask }) => {
   );
 });
 
-// Внутренний компонент, использующий контекст
 const ToDoPermaTasksContent = () => {
   const { addTask } = useContext(PermaTasksContext);
 
@@ -61,7 +60,7 @@ const ToDoPermaTasksContent = () => {
   return (
     <div className={styles.perma}>
       <div className={styles.header}>
-        <h2 className={styles.title}>📝 Постоянные заметки</h2>
+        <h2 className={styles.title}>Постоянные заметки</h2>
       </div>
       <PermaForm onAddTask={addTaskHandler} />
       <PermaTaskList />
@@ -69,7 +68,6 @@ const ToDoPermaTasksContent = () => {
   );
 };
 
-// Основной компонент (обёрнут в memo)
 const ToDoPermaTasks = memo(() => {
   return (
     <PermaTasksProvider>

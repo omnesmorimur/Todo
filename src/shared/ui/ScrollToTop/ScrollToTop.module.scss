@@ -1,0 +1,16 @@
+.scrollButton {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  border: var(--border);
+  box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
+}
+
+.scrollButton:hover {
+  background-color: var(--bg-azure);
+}

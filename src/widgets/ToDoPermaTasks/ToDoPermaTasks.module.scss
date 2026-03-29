@@ -3,6 +3,7 @@
   border: var(--border);
   margin-inline: auto;
   padding: 8px;
+  padding-bottom: 1rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
@@ -17,7 +18,7 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0;
-  color: #2c3e50;
+  color: var(--color-orangered);
 }
 
 .form {

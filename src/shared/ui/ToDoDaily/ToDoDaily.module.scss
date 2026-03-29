@@ -57,8 +57,6 @@
 .dailyItem {
   display: flex;
   align-items: center;
-  column-gap: 12px;
-  padding: .25rem .35rem;
   background-color: var(--color-white);
   border-radius: var(--border-radius);
   border: var(--border);
@@ -113,15 +111,13 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   margin-left: auto;
   padding: 0;
-  color: var(--color-gray-4);
-  background-color: transparent;
   border: none;
   border-radius: inherit;
-  cursor: pointer;
+  background: transparent;
 
   &:hover {
     color: var(--color-white);
@@ -152,6 +148,10 @@
 .dailyLabel {
   width: 100%;
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  padding-left: 8px;
 }
 
 .dailyFooter {
