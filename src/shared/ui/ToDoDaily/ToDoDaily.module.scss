@@ -146,6 +146,7 @@
 
 
 .dailyLabel {
+  height: 34px;
   width: 100%;
   font-size: 16px;
   display: flex;
@@ -209,10 +210,84 @@
     padding-inline: 12px;
     min-width: 70%;
   }
-  .dailyForm{
+
+  .dailyForm {
     font-size: 16px;
     height: 38px;
     padding-inline: 12px;
     min-width: 70%;
   }
+}
+// Настройки времени сброса
+.settingsWrapper {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.settingsButton {
+  width: 100%;
+  justify-content: center;
+  background-color: var(--color-gray-1);
+  
+  &:hover {
+    background-color: var(--color-gray-2);
+  }
+}
+
+.settingsPanel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 8px;
+  padding: 16px;
+  background-color: var(--color-white);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.settingsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: var(--color-dark-1);
+}
+
+.timeInputs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.timeInputGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  label {
+    font-size: 12px;
+    color: var(--color-gray-4);
+  }
+}
+
+.timeInput {
+  padding: 8px;
+  border: var(--border);
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  text-align: center;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-dark-2);
+  }
+}
+
+.settingsActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }

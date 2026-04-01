@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import tasksPermaAPI from '@/shared/api/tasks/tasksPermaAPI'
 import Button2 from "@/shared/ui/Button"
 import styles from '@/pages/TaskPage/TaskPage.module.scss'
+import BackLinkButton from '@/shared/ui/BackLinkButton';
 
 const PermaTaskPage = (props) => {
   const { params } = props
@@ -59,17 +60,9 @@ const PermaTaskPage = (props) => {
         />
 
         <div className={styles.actionsRow}>
-          <div className={styles.backLink}>
-            <a href="/" onClick={(e) => {
-              e.preventDefault()
-              window.history.back()
-            }}>
-              <Button2 variant="outline" size="small">
-                ← Назад к списку
-              </Button2>
-            </a>
-          </div>
-
+          <BackLinkButton>
+            ← Назад к списку
+          </BackLinkButton>
           <Button2
             variant="primary"
             size="medium"

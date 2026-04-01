@@ -1,10 +1,11 @@
-import { useState, useEffect, memo, useCallback } from 'react';
+import { useState, useEffect, memo, useCallback, useMemo } from 'react';
 import styles from './ToDoDaily.module.scss';
 import Button2 from '@/shared/ui/Button';
 import Field from '@/shared/ui/Field';
 import Clock from '@/shared/ui/Clock';
+import ResetTimer from '@/shared/ui/ResetTimer';
 
-// --- Форма добавления задачи (мемоизирована) ---
+// --- Форма добавления задачи ---
 const DailyFormWrapper = memo(({ onAddTask }) => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [error, setError] = useState('');
@@ -47,158 +48,250 @@ const DailyFormWrapper = memo(({ onAddTask }) => {
   );
 });
 
-// --- Список задач (мемоизирован) ---
+// --- Список задач ---
 const DailyList = memo(({ tasks, onToggle, onDelete }) => (
   <ul className={styles.dailyList}>
     {tasks.map((task) => (
       <li key={task.id} className={styles.dailyItem}>
+        <input
+          className={styles.dailyCheckbox}
+          id={task.id}
+          type="checkbox"
+          checked={task.isDone}
+          onChange={({ target }) => onToggle(task.id, target.checked)}
+        />
         <label className={styles.dailyLabel} htmlFor={task.id}>
-          <input
-            className={styles.dailyCheckbox}
-            id={task.id}
-            type="checkbox"
-            checked={task.isDone}
-            onChange={({ target }) => onToggle(task.id, target.checked)}
-          />
           {task.title}
-          <button
-            className={styles.dailyDeleteButton}
-            onClick={() => onDelete(task.id)}
-            aria-label="Удалить задачу"
-            title="Удалить"
-          >
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M15 5L5 15M5 5L15 15"
-                stroke="#757575"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
         </label>
+        <button
+          className={styles.dailyDeleteButton}
+          onClick={() => onDelete(task.id)}
+          aria-label="Удалить задачу"
+          title="Удалить"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M15 5L5 15M5 5L15 15"
+              stroke="#757575"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </li>
     ))}
   </ul>
 ));
 
+// --- Компонент настроек времени сброса ---
+const ResetTimeSettings = memo(({ resetHour, resetMinute, onSave }) => {
+  const [hour, setHour] = useState(resetHour);
+  const [minute, setMinute] = useState(resetMinute);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSave = () => {
+    onSave(hour, minute);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className={styles.settingsWrapper}>
+      <Button2
+        variant="secondary"
+        size="small"
+        onClick={() => setIsOpen(!isOpen)}
+        className={styles.settingsButton}
+      >
+        ⚙️ Настройка времени
+      </Button2>
+
+      {isOpen && (
+        <div className={styles.settingsPanel}>
+          <h3 className={styles.settingsTitle}>Время ежедневного сброса (МСК)</h3>
+          <div className={styles.timeInputs}>
+            <div className={styles.timeInputGroup}>
+              <label>Часы:</label>
+              <input
+                type="number"
+                min="0"
+                max="23"
+                value={hour}
+                onChange={(e) => setHour(Number(e.target.value))}
+                className={styles.timeInput}
+              />
+            </div>
+            <div className={styles.timeInputGroup}>
+              <label>Минуты:</label>
+              <input
+                type="number"
+                min="0"
+                max="59"
+                value={minute}
+                onChange={(e) => setMinute(Number(e.target.value))}
+                className={styles.timeInput}
+              />
+            </div>
+          </div>
+          <div className={styles.settingsActions}>
+            <Button2 variant="primary" size="small" onClick={handleSave}>
+              Сохранить
+            </Button2>
+            <Button2 variant="outline" size="small" onClick={() => setIsOpen(false)}>
+              Отмена
+            </Button2>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+});
+
 // --- Основной компонент ---
 const ToDoDaily = memo(() => {
   const defaultDailyTasks = [];
-  const RESET_HOUR_MSK = 7;
-  const RESET_MINUTE = 0;
 
-  const getCurrentMSKDate = () => {
+  // Загрузка сохранённых настроек времени
+  const loadResetTime = () => {
+    const savedHour = localStorage.getItem('dailyTasksResetHour');
+    const savedMinute = localStorage.getItem('dailyTasksResetMinute');
+    return {
+      hour: savedHour !== null ? parseInt(savedHour) : 7,
+      minute: savedMinute !== null ? parseInt(savedMinute) : 0
+    };
+  };
+
+  const [resetHour, setResetHour] = useState(loadResetTime().hour);
+  const [resetMinute, setResetMinute] = useState(loadResetTime().minute);
+  const [lastReset, setLastReset] = useState(() => 
+    localStorage.getItem('dailyTasksLastReset')
+  );
+
+  // Получить текущее время в МСК
+  const getCurrentMSKTime = useCallback(() => {
+    const now = new Date();
+    const mskTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+    return {
+      hours: mskTime.getUTCHours(),
+      minutes: mskTime.getUTCMinutes(),
+      seconds: mskTime.getUTCSeconds()
+    };
+  }, []);
+
+  // Получить текущую дату в МСК
+  const getCurrentMSKDate = useCallback(() => {
     const now = new Date();
     const mskTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
     return mskTime.toISOString().split('T')[0];
-  };
+  }, []);
 
-  const getCurrentMSKHour = () => {
-    const now = new Date();
-    const mskTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
-    return mskTime.getUTCHours();
-  };
-
-  // Функция для проверки, нужно ли сбрасывать задачи
-  const shouldResetTasks = (lastResetDate) => {
+  // Проверка, нужно ли сбросить задачи
+  const shouldReset = useCallback(() => {
     const currentDate = getCurrentMSKDate();
-    const currentHour = getCurrentMSKHour();
-
-    // Если дата последнего сброса не сегодня И уже прошло 7 утра
-    return lastResetDate !== currentDate && currentHour >= RESET_HOUR_MSK;
-  };
-
-  const [dailyTasks, setDailyTasks] = useState(() => {
-    const saved = localStorage.getItem('dailyTasks');
-    const lastReset = localStorage.getItem('dailyTasksLastReset');
-
-    if (!saved) {
-      return defaultDailyTasks;
+    const { hours, minutes } = getCurrentMSKTime();
+    
+    if (lastReset !== currentDate) {
+      if (hours > resetHour) return true;
+      if (hours === resetHour && minutes >= resetMinute) return true;
     }
+    return false;
+  }, [lastReset, resetHour, resetMinute, getCurrentMSKDate, getCurrentMSKTime]);
 
+  // Загрузка задач из localStorage
+  const loadTasks = useCallback(() => {
+    const saved = localStorage.getItem('dailyTasks');
+    const lastResetFromStorage = localStorage.getItem('dailyTasksLastReset');
+
+    if (!saved) return defaultDailyTasks;
+    
     const parsed = JSON.parse(saved);
-
-    // Если нужно сбросить — сбрасываем isDone, но сохраняем задачи
-    if (shouldResetTasks(lastReset)) {
-      const resetTasks = parsed.map((task) => ({ ...task, isDone: false }));
+    
+    if (lastResetFromStorage !== getCurrentMSKDate() && shouldReset()) {
+      const resetTasks = parsed.map(task => ({ ...task, isDone: false }));
       localStorage.setItem('dailyTasksLastReset', getCurrentMSKDate());
+      setLastReset(getCurrentMSKDate());
       return resetTasks;
     }
-
+    
     return parsed;
-  });
+  }, [shouldReset, getCurrentMSKDate, defaultDailyTasks]);
 
-  // Сохраняем задачи при каждом изменении
+  const [dailyTasks, setDailyTasks] = useState(loadTasks);
+
+  // Сохранение в localStorage
   useEffect(() => {
     localStorage.setItem('dailyTasks', JSON.stringify(dailyTasks));
   }, [dailyTasks]);
 
-  // Проверка при монтировании (на случай, если нужно сбросить)
+  // Сохранение настроек времени при изменении
   useEffect(() => {
-    const lastReset = localStorage.getItem('dailyTasksLastReset');
+    localStorage.setItem('dailyTasksResetHour', resetHour);
+    localStorage.setItem('dailyTasksResetMinute', resetMinute);
+  }, [resetHour, resetMinute]);
 
-    if (shouldResetTasks(lastReset)) {
-      setDailyTasks((prev) => {
-        const resetTasks = prev.map((task) => ({ ...task, isDone: false }));
-        localStorage.setItem('dailyTasksLastReset', getCurrentMSKDate());
-        return resetTasks;
-      });
-    }
-  }, []);
+  // Функция сброса
+  const performReset = useCallback(() => {
+    const currentDate = getCurrentMSKDate();
+    setDailyTasks(prev => {
+      const resetTasks = prev.map(task => ({ ...task, isDone: false }));
+      localStorage.setItem('dailyTasksLastReset', currentDate);
+      setLastReset(currentDate);
+      return resetTasks;
+    });
+  }, [getCurrentMSKDate]);
 
-  // Таймер сброса
+  // Проверка каждую секунду (только на сброс, без обновления таймера)
   useEffect(() => {
-    const scheduleReset = () => {
-      const now = new Date();
-      const mskNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
-
-      let nextResetMSK = new Date(
-        Date.UTC(
-          mskNow.getUTCFullYear(),
-          mskNow.getUTCMonth(),
-          mskNow.getUTCDate(),
-          RESET_HOUR_MSK,
-          RESET_MINUTE,
-          0,
-          0
-        )
-      );
-
-      if (mskNow >= nextResetMSK) {
-        nextResetMSK.setUTCDate(nextResetMSK.getUTCDate() + 1);
+    const checkReset = () => {
+      if (shouldReset()) {
+        performReset();
       }
+    };
+    
+    const interval = setInterval(checkReset, 1000);
+    return () => clearInterval(interval);
+  }, [shouldReset, performReset]);
 
-      const nextResetUTC = new Date(nextResetMSK.getTime() - 3 * 60 * 60 * 1000);
-      const timeUntilReset = nextResetUTC.getTime() - now.getTime();
-
-      const timer = setTimeout(() => {
-        const currentDate = getCurrentMSKDate();
-        setDailyTasks((prev) => {
-          const resetTasks = prev.map((task) => ({ ...task, isDone: false }));
-          localStorage.setItem('dailyTasksLastReset', currentDate);
-          return resetTasks;
-        });
-        scheduleReset();
-      }, timeUntilReset);
-
-      return timer;
+  // Проверка при монтировании и при возвращении на страницу
+  useEffect(() => {
+    const checkAndReset = () => {
+      if (shouldReset()) {
+        performReset();
+      }
     };
 
-    const timer = scheduleReset();
-    return () => clearTimeout(timer);
-  }, []);
+    checkAndReset();
+
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        checkAndReset();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkAndReset();
+      }
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [shouldReset, performReset]);
 
   const toggleTask = useCallback((id, isDone) => {
-    setDailyTasks((prev) =>
-      prev.map((task) => (task.id === id ? { ...task, isDone } : task))
+    setDailyTasks(prev =>
+      prev.map(task => task.id === id ? { ...task, isDone } : task)
     );
   }, []);
 
   const deleteTask = useCallback((id) => {
     if (confirm('Удалить эту задачу?')) {
-      setDailyTasks((prev) => prev.filter((task) => task.id !== id));
+      setDailyTasks(prev => prev.filter(task => task.id !== id));
     }
   }, []);
 
@@ -208,18 +301,31 @@ const ToDoDaily = memo(() => {
       title,
       isDone: false,
     };
-    setDailyTasks((prev) => [...prev, newTask]);
+    setDailyTasks(prev => [...prev, newTask]);
   }, []);
 
   const forceReset = useCallback(() => {
     if (confirm('Принудительно сбросить отметки о выполнении задач?')) {
       const currentDate = getCurrentMSKDate();
-      setDailyTasks((prev) => prev.map((task) => ({ ...task, isDone: false })));
+      setDailyTasks(prev => prev.map(task => ({ ...task, isDone: false })));
       localStorage.setItem('dailyTasksLastReset', currentDate);
+      setLastReset(currentDate);
     }
-  }, []);
+  }, [getCurrentMSKDate]);
 
-  const completedCount = dailyTasks.filter((task) => task.isDone).length;
+  const handleResetTimeSave = useCallback((hour, minute) => {
+    setResetHour(hour);
+    setResetMinute(minute);
+    // После смены времени проверяем, нужно ли сбросить сейчас
+    if (shouldReset()) {
+      performReset();
+    }
+  }, [shouldReset, performReset]);
+
+  const completedCount = useMemo(() => 
+    dailyTasks.filter(task => task.isDone).length,
+    [dailyTasks]
+  );
 
   return (
     <div className={styles.daily}>
@@ -231,6 +337,18 @@ const ToDoDaily = memo(() => {
         </span>
       </div>
 
+      <ResetTimeSettings 
+        resetHour={resetHour} 
+        resetMinute={resetMinute} 
+        onSave={handleResetTimeSave} 
+      />
+
+      <ResetTimer 
+        resetHour={resetHour} 
+        resetMinute={resetMinute} 
+        lastResetDate={lastReset}
+      />
+
       <DailyFormWrapper onAddTask={addTask} />
 
       {dailyTasks.length > 0 ? (
@@ -240,9 +358,6 @@ const ToDoDaily = memo(() => {
       )}
 
       <div className={styles.dailyFooter}>
-        <span className={styles.dailyResetInfo}>
-          <p>Отметки сбрасываются каждый день в 7.00 MSK</p>
-        </span>
         <Button2 variant="primary" size="medium" onClick={forceReset}>
           🔄 Принудительный сброс отметок
         </Button2>

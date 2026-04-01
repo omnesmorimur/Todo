@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import tasksLocalAPI from '@/shared/api/tasks/tasksLocalAPI'
 import Button2 from "@/shared/ui/Button"
 import styles from './TaskPage.module.scss'
+import BackLinkButton from '@/shared/ui/BackLinkButton';
+
 
 const TaskPage = (props) => {
     const { params } = props
@@ -70,19 +72,9 @@ const TaskPage = (props) => {
                 />
 
                 <div className={styles.actionsRow}>
-                    <div className={styles.backLink}>
-                        <a href="/" onClick={(e) => {
-                            e.preventDefault()
-                            window.history.back()
-                        }}>
-                            <Button2
-                                variant="secondary"
-                                size="small"
-                            >
-                                ← Назад к списку задач
-                            </Button2>
-                        </a>
-                    </div>
+                    <BackLinkButton>
+                        ← Назад к списку
+                    </BackLinkButton>
 
                     <Button2
                         variant="primary"

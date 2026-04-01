@@ -7,15 +7,16 @@ const RouterLink = (props) => {
         ...rest
     } = props
 
+    const normalizedPath = `${BASE_URL}${to}`.replace(/\/+/g, '/')
+
     const handleClick = (event) => {
         event.preventDefault()
-        const fullPath = `${BASE_URL}${to}`.replace(/\/+/g, '/') // удаляем лишние слеши
-        window.history.pushState({}, '', fullPath)
+        window.history.pushState({}, '', normalizedPath)
         window.dispatchEvent(new PopStateEvent('popstate'))
     }
 
     return (
-        <a href={`${BASE_URL}${to}`} onClick={handleClick} {...rest}>
+        <a href={normalizedPath} onClick={handleClick} {...rest}>
             {children}
         </a>
     )
