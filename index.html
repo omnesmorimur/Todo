@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,13 +7,47 @@
   href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Russo+One&display=swap"
   rel="stylesheet">
   <link rel="shortcut icon" href="./src/assets/icons/favicon.ico" type="image/x-icon">
-  <title>To Do List React App</title>
-  <script type="module" crossorigin src="/Todo/assets/index-NMpDj87u.js"></script>
-  <link rel="stylesheet" crossorigin href="/Todo/assets/index-enhJBzNu.css">
-</head>
 
+  <title>To Do List React App</title>
+  
+  <style>
+    .app-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #F5F5F5;
+      z-index: 10000;
+      transition: opacity 0.3s ease;
+    }
+    .app-loader .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #D9D9D9;
+      border-top-color: #FF4500;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .app-loader.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+  <script type="module" crossorigin src="/Todo/assets/index-BLOuNKoN.js"></script>
+  <link rel="stylesheet" crossorigin href="/Todo/assets/index-D6gZSgX3.css">
+</head>
 <body>
   <div id="root"></div>
+  <div id="app-loader" class="app-loader">
+    <div class="spinner"></div>
+  </div>
+  
 </body>
-
 </html>
