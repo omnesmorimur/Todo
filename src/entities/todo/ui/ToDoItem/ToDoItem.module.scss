@@ -76,10 +76,6 @@
   }
 }
 
-.label {
-  width: 100%;
-}
-
 .deleteButton {
   flex-shrink: 0;
   display: inline-flex;
@@ -107,5 +103,13 @@
   * {
     pointer-events: none;
   }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+
 }
 

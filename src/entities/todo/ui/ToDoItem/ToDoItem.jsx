@@ -20,31 +20,32 @@ const ToDoItem = (props) => {
     appearingTaskId,
   } = useContext(TasksContext)
 
-  return (
-    <li className={`
-      ${styles.todoItem}
-      ${className} 
-      ${disappearingTaskId === id ? styles.isDisappearing : ''}
-      ${appearingTaskId === id ? styles.isAppearing : ''}
-    `}
-      ref={id === firstIncompleteTaskId ? firstIncompleteTaskRef : null}>
-      <input
-        className={styles.checkbox}
-        id={id}
-        type="checkbox"
-        checked={isDone}
-        onChange={({ target }) => {
-          toggleTaskComplete(id, target.checked)
-        }}
+  const handleLinkClick = () => {
+    sessionStorage.setItem('returnToTaskId', id)
+    sessionStorage.setItem('returnToScrollY', window.scrollY)
+  }
 
-      />
-      <label
-        className={`${styles.label} visually-hidden`}
-        htmlFor={id}
-      >
-        {title}
+  return (
+    <li 
+      id={id}
+      className={`
+        ${styles.todoItem}
+        ${className} 
+        ${disappearingTaskId === id ? styles.isDisappearing : ''}
+        ${appearingTaskId === id ? styles.isAppearing : ''}
+      `}
+      ref={id === firstIncompleteTaskId ? firstIncompleteTaskRef : null}
+    >
+      <label className={styles.label}>
+        <input
+          className={styles.checkbox}
+          type="checkbox"
+          checked={isDone}
+          onChange={({ target }) => toggleTaskComplete(id, target.checked)}
+        />
+        <span className="visually-hidden">{title}</span>
       </label>
-      <RouterLink to={`tasks/${id}`} aria-label={"Task detail page"}>
+      <RouterLink to={`tasks/${id}`} onClick={handleLinkClick} aria-label="Task detail page">
         {title}
       </RouterLink>
       <button

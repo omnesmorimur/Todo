@@ -5,9 +5,8 @@ body {
   min-height: 100vh;
   padding: 30px 30px;
   font-family: "Roboto Condensed";
-  background-color: var(--color-gray-1);
   font-weight: 400;
-  
+
   @media (max-width: 800px) {
     padding: 0;
   }
@@ -17,6 +16,10 @@ input,
 label,
 button {
   transition-duration: var(--transition-duration);
+}
+
+button {
+  background: var(--color-white);
 }
 
 :focus-visible {
@@ -32,7 +35,14 @@ button {
   @media (max-width: 800px) {
     flex-direction: column-reverse;
   }
+}
 
+.appContent {
+  padding-top: 2rem;
+}
+
+.appContentFull {
+  padding-top: 0;
 }
 
 ::selection {
@@ -43,4 +53,9 @@ button {
 ::-moz-selection {
   background: var(--color-black);
   color: var(--color-yellow);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-3) var(--color-gray-1);
 }

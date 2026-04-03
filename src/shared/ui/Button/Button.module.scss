@@ -38,8 +38,8 @@
 
 // Variants
 .primary {
-  background-color: var(--color-white);
   color: var(--color-dark-1);
+  background-color: var(--color-white);
 
   &:hover:not(:disabled) {
     background-color: var(--bg-azure);
@@ -96,4 +96,3 @@
     background: var(--color-gold);
   }
 }
-

@@ -12,9 +12,19 @@ const PermaTasksItem = memo(({ task }) => {
     }
   }, [deleteTask, task.id]);
 
+  const handleLinkClick = () => {
+    // Сохраняем ID задачи и текущую позицию прокрутки
+    sessionStorage.setItem('returnToTaskId', task.id)
+    sessionStorage.setItem('returnToScrollY', window.scrollY)
+  }
+
   return (
-    <li className={styles.permaItem}>
-      <RouterLink to={`/perma/${task.id}`} className={styles.link}>
+    <li id={task.id} className={styles.permaItem}>
+      <RouterLink 
+        to={`/perma/${task.id}`} 
+        className={styles.link}
+        onClick={handleLinkClick}
+      >
         {task.title}
       </RouterLink>
       <button

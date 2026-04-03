@@ -13,7 +13,7 @@ const ToDo = memo(() => {
   const { firstIncompleteTaskRef } = useContext(TasksContext);
 
   const scrollToIncomplete = useCallback(() => {
-    firstIncompleteTaskRef.current?.scrollIntoView({ behavior: 'smooth' });
+    firstIncompleteTaskRef.current?.scrollIntoView({});
   }, [firstIncompleteTaskRef]);
 
   return (
