@@ -47,7 +47,12 @@
 
 @media (max-width: 800px) {
   .perma {
+    padding-inline: 1rem;
     width: auto;
     min-width: 404px;
+    border: none;
+    margin-inline: auto;
+    border-radius: none;
+    box-shadow: none;
   }
 }

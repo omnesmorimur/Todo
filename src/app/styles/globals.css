@@ -34,11 +34,16 @@ button {
 
   @media (max-width: 800px) {
     flex-direction: column-reverse;
+    gap: 30px;
   }
 }
 
 .appContent {
   padding-top: 2rem;
+
+  @media (max-width: 800px) {
+    padding-top: 3rem;
+  }
 }
 
 .appContentFull {

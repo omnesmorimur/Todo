@@ -10,6 +10,12 @@
   background-color: var(--color-white);
   border: var(--border);
   box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
+
+  @media (max-width: 800px) {
+    padding: 1rem;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .title {
