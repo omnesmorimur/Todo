@@ -4,6 +4,7 @@ import Button2 from "@/shared/ui/Button"
 import styles from './TaskPage.module.scss'
 import RouterLink from '@/shared/ui/RouterLink'
 
+// Форматирование даты для отображения
 const formatDate = (dateString) => {
   if (!dateString) return null
   const date = new Date(dateString)
@@ -74,7 +75,7 @@ const TaskPage = (props) => {
                 </span>
                 {formattedDate && (
                     <div className={styles.createdAt}>
-                        📅 Создана: {formattedDate}
+                       Создана: {formattedDate}
                     </div>
                 )}
             </div>

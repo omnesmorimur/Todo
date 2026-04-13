@@ -64,3 +64,14 @@ button {
   scrollbar-width: thin;
   scrollbar-color: var(--color-gray-3) var(--color-gray-1);
 }
+
+@media (max-width: 500px) {
+  body {
+    padding-bottom: 0;
+  }
+
+  .taskPage {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}

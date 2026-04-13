@@ -7,6 +7,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 
   @media (min-width: 801px) {
     width: calc(100vw - 60px);

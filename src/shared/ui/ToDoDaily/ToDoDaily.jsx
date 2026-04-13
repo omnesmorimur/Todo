@@ -40,6 +40,7 @@ const DailyFormWrapper = memo(({ onAddTask }) => {
         value={newTaskTitle}
         error={error}
         onInput={onInput}
+        autoComplete="off" 
       />
       <Button2 type="submit" variant="primary" size="medium" isDisabled={isTitleEmpty}>
         Добавить
@@ -59,6 +60,7 @@ const DailyList = memo(({ tasks, onToggle, onDelete }) => (
           type="checkbox"
           checked={task.isDone}
           onChange={({ target }) => onToggle(task.id, target.checked)}
+          autoComplete="off"
         />
         <label className={styles.dailyLabel} htmlFor={task.id}>
           {task.title}
@@ -316,7 +318,6 @@ const ToDoDaily = memo(() => {
   const handleResetTimeSave = useCallback((hour, minute) => {
     setResetHour(hour);
     setResetMinute(minute);
-    // После смены времени проверяем, нужно ли сбросить сейчас
     if (shouldReset()) {
       performReset();
     }
