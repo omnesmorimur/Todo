@@ -88,7 +88,6 @@ const TaskPage = (props) => {
                     onChange={(e) => setComments(e.target.value)}
                     placeholder="Добавьте комментарий к задаче..."
                     rows="6" 
-                    autoComplete="off"
                 />
 
                 <div className={styles.actionsRow}>

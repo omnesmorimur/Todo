@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styles from './Field.module.scss'
 
 const Field = (props) => {
@@ -5,12 +6,25 @@ const Field = (props) => {
     className = '',
     id,
     label,
-    type = 'search', 
+    type = 'search',
     value,
     onInput,
     ref,
     error,
   } = props
+
+  const [isReadOnly, setIsReadOnly] = useState(true);
+
+  const handleFocus = (e) => {
+    setIsReadOnly(false);
+    // Если нужно, можно вызвать оригинальный onFocus из props
+    if (props.onFocus) props.onFocus(e);
+  };
+
+  const handleBlur = (e) => {
+    setIsReadOnly(true);
+    if (props.onBlur) props.onBlur(e);
+  };
 
   return (
     <div className={`${styles.field} ${className}`}>
@@ -22,10 +36,13 @@ const Field = (props) => {
         id={id}
         ref={ref}
         placeholder=""
-        autoComplete="false" 
-        type={type}          
+        autoComplete="false"
+        type={type}
         value={value}
         onInput={onInput}
+        readOnly={isReadOnly}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       {error && (
         <span className={styles.error} title={error}>{error}</span>

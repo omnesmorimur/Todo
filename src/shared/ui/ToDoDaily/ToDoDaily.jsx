@@ -32,7 +32,7 @@ const DailyFormWrapper = memo(({ onAddTask }) => {
   }, []);
 
   return (
-    <form className={styles.dailyForm} onSubmit={onSubmit} autoComplete="off">
+    <form className={styles.dailyForm} onSubmit={onSubmit}>
       <Field
         className={styles.field}
         label="Новая задача"
@@ -40,7 +40,6 @@ const DailyFormWrapper = memo(({ onAddTask }) => {
         value={newTaskTitle}
         error={error}
         onInput={onInput}
-        autoComplete="off" 
       />
       <Button2 type="submit" variant="primary" size="medium" isDisabled={isTitleEmpty}>
         Добавить
@@ -60,7 +59,6 @@ const DailyList = memo(({ tasks, onToggle, onDelete }) => (
           type="checkbox"
           checked={task.isDone}
           onChange={({ target }) => onToggle(task.id, target.checked)}
-          autoComplete="off"
         />
         <label className={styles.dailyLabel} htmlFor={task.id}>
           {task.title}

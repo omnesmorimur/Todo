@@ -36,7 +36,6 @@ const AddTaskForm = (props) => {
         error={error}
         onInput={onInput}
         type="search"          
-        autoComplete="false"   
       />
       <Button2
         type="submit"

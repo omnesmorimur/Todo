@@ -66,6 +66,19 @@ button {
   scrollbar-color: var(--color-gray-3) var(--color-gray-1);
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
+}
+
+input,
+textarea {
+  filter: none !important;
+}
+
 @media (max-width: 500px) {
   body {
     padding-bottom: 0;
@@ -77,25 +90,4 @@ button {
   }
 }
 
-/* Отключаем автозаполнение на всех полях */
-input,
-textarea,
-select {
-  -webkit-autofill: none;
-  autocomplete: off;
-}
 
-/* Убираем жёлтый фон у автозаполненных полей */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-  box-shadow: 0 0 0 30px white inset !important;
-}
-
-/* Для Firefox */
-input,
-textarea {
-  filter: none !important;
-}
