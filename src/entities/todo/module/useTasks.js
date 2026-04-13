@@ -56,14 +56,17 @@ const useTasks = () => {
 
     const deleteTask = useCallback((taskId) => {
         tasksLocalAPI.delete(taskId)
-            .then(() => {
-                setDisappearingTaskId(taskId)
-                setTimeout(() => {
-                    dispatch({ type: 'DELETE', id: taskId })
-                    setDisappearingTaskId(null)
-                }, 400)
-            })
-    }, [])
+          .then(() => {
+            setDisappearingTaskId(taskId)
+            setTimeout(() => {
+              dispatch({ type: 'DELETE', id: taskId })
+              setDisappearingTaskId(null)
+            }, 400)
+          })
+          .catch((error) => {
+            console.error('Ошибка при удалении:', error)
+          })
+      }, [])
 
     const toggleTaskComplete = useCallback((taskId, isDone) => {
         tasksLocalAPI.toggleComplete(taskId, isDone).then(() => {

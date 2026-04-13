@@ -26,7 +26,7 @@ const ToDoItem = (props) => {
   }
 
   return (
-    <li 
+    <li
       id={id}
       className={`
         ${styles.todoItem}
@@ -53,6 +53,7 @@ const ToDoItem = (props) => {
         aria-label="Delete"
         title="Delete"
         onClick={() => deleteTask(id)}
+        type="button"
       >
         <svg
           width="20"

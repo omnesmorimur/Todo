@@ -5,12 +5,11 @@ const Field = (props) => {
     className = '',
     id,
     label,
-    type = 'text',
+    type = 'search', 
     value,
     onInput,
     ref,
     error,
-    autoComplete = 'off',
   } = props
 
   return (
@@ -23,13 +22,10 @@ const Field = (props) => {
         id={id}
         ref={ref}
         placeholder=""
-        autoComplete={autoComplete}
-        type={type}
+        autoComplete="false" 
+        type={type}          
         value={value}
         onInput={onInput}
-        name={id}
-        spellCheck="false"
-        data-form-type="other"
       />
       {error && (
         <span className={styles.error} title={error}>{error}</span>

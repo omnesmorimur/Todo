@@ -17,7 +17,7 @@ const tasksLocalAPI = {
       const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
       const parsedTasks = tasks ? JSON.parse(tasks) : []
       const task = parsedTasks.find(t => t.id === id)
-      
+
       if (task) {
         resolve(task)
       } else {
@@ -26,33 +26,33 @@ const tasksLocalAPI = {
     })
   },
 
-add: (task) => {
-  return new Promise((resolve) => {
-    const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
-    const parsedTasks = tasks ? JSON.parse(tasks) : []
-    
-    const newTask = {
-      ...task,
-      id: generateId(),
-      comments: task.comments || '',
-      createdAt: new Date().toISOString() 
-    }
-    
-    const updatedTasks = [...parsedTasks, newTask]
-    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
-    
-    resolve(newTask)
-  })
-},
+  add: (task) => {
+    return new Promise((resolve) => {
+      const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
+      const parsedTasks = tasks ? JSON.parse(tasks) : []
+
+      const newTask = {
+        ...task,
+        id: generateId(),
+        comments: task.comments || '',
+        createdAt: new Date().toISOString()
+      }
+
+      const updatedTasks = [...parsedTasks, newTask]
+      localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
+
+      resolve(newTask)
+    })
+  },
 
   delete: (id) => {
     return new Promise((resolve) => {
       const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
       const parsedTasks = tasks ? JSON.parse(tasks) : []
-      
+
       const updatedTasks = parsedTasks.filter(task => task.id !== id)
       localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
-      
+
       resolve()
     })
   },
@@ -61,10 +61,10 @@ add: (task) => {
     return new Promise((resolve) => {
       const allTasks = localStorage.getItem(TASKS_STORAGE_KEY)
       const parsedAllTasks = allTasks ? JSON.parse(allTasks) : []
-      
+
       const taskIdsToDelete = new Set(tasks.map(t => t.id))
       const updatedTasks = parsedAllTasks.filter(task => !taskIdsToDelete.has(task.id))
-      
+
       localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
       resolve()
     })
@@ -74,11 +74,11 @@ add: (task) => {
     return new Promise((resolve) => {
       const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
       const parsedTasks = tasks ? JSON.parse(tasks) : []
-      
-      const updatedTasks = parsedTasks.map(task => 
+
+      const updatedTasks = parsedTasks.map(task =>
         task.id === id ? { ...task, isDone } : task
       )
-      
+
       localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
       resolve()
     })
@@ -88,11 +88,11 @@ add: (task) => {
     return new Promise((resolve) => {
       const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
       const parsedTasks = tasks ? JSON.parse(tasks) : []
-      
-      const updatedTasks = parsedTasks.map(task => 
+
+      const updatedTasks = parsedTasks.map(task =>
         task.id === id ? { ...task, comments } : task
       )
-      
+
       localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
       resolve()
     })
