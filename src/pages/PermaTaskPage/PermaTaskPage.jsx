@@ -4,6 +4,18 @@ import Button2 from "@/shared/ui/Button"
 import styles from '@/pages/TaskPage/TaskPage.module.scss'
 import RouterLink from '@/shared/ui/RouterLink'
 
+const formatDate = (dateString) => {
+  if (!dateString) return null
+  const date = new Date(dateString)
+  return date.toLocaleDateString([], { 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
 const PermaTaskPage = (props) => {
   const { params } = props
   const taskId = params.id
@@ -45,9 +57,17 @@ const PermaTaskPage = (props) => {
   if (isLoading) return <div className={styles.loading}>Loading...</div>
   if (hasError) return <div className={styles.error}>Заметка не найдена!</div>
 
+  const formattedDate = formatDate(task.createdAt)
+
   return (
     <div className={styles.taskPage}>
       <h1 className={styles.title}>{task.title}</h1>
+
+      {formattedDate && (
+        <div className={styles.createdAt}>
+          Создана: {formattedDate}
+        </div>
+      )}
 
       <div className={styles.commentsSection}>
         <h2 className={styles.commentsTitle}>Комментарии</h2>

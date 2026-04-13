@@ -26,23 +26,24 @@ const tasksLocalAPI = {
     })
   },
 
-  add: (task) => {
-    return new Promise((resolve) => {
-      const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
-      const parsedTasks = tasks ? JSON.parse(tasks) : []
-      
-      const newTask = {
-        ...task,
-        id: generateId(),
-        comments: task.comments || '' // Добавляем поле для комментариев
-      }
-      
-      const updatedTasks = [...parsedTasks, newTask]
-      localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
-      
-      resolve(newTask)
-    })
-  },
+add: (task) => {
+  return new Promise((resolve) => {
+    const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
+    const parsedTasks = tasks ? JSON.parse(tasks) : []
+    
+    const newTask = {
+      ...task,
+      id: generateId(),
+      comments: task.comments || '',
+      createdAt: new Date().toISOString() 
+    }
+    
+    const updatedTasks = [...parsedTasks, newTask]
+    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
+    
+    resolve(newTask)
+  })
+},
 
   delete: (id) => {
     return new Promise((resolve) => {

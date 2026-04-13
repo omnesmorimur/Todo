@@ -13,7 +13,6 @@ const PermaTasksItem = memo(({ task }) => {
   }, [deleteTask, task.id]);
 
   const handleLinkClick = () => {
-    // Сохраняем ID задачи и текущую позицию прокрутки
     sessionStorage.setItem('returnToTaskId', task.id)
     sessionStorage.setItem('returnToScrollY', window.scrollY)
   }

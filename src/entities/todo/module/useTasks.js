@@ -70,23 +70,24 @@ const useTasks = () => {
 
     const addTask = useCallback((title, callbackAfterAdding) => {
         const newTask = {
-            title,
-            isDone: false,
-            comments: '' // Добавляем пустой комментарий
+          title,
+          isDone: false,
+          comments: '',
+          createdAt: new Date().toISOString() // 👈 добавляем
         }
-
+      
         tasksLocalAPI.add(newTask)
-            .then((addedTask) => {
-                dispatch({ type: 'ADD', task: addedTask })
-                callbackAfterAdding()
-                setSearchQuery('')
-                newTaskInputRef.current.focus()
-                setAppearingTaskId(addedTask.id)
-                setTimeout(() => {
-                    setAppearingTaskId(null)
-                }, 400)
-            })
-    }, [])
+          .then((addedTask) => {
+            dispatch({ type: 'ADD', task: addedTask })
+            callbackAfterAdding()
+            setSearchQuery('')
+            newTaskInputRef.current.focus()
+            setAppearingTaskId(addedTask.id)
+            setTimeout(() => {
+              setAppearingTaskId(null)
+            }, 400)
+          })
+      }, [])
 
     useEffect(() => {
         newTaskInputRef.current?.focus()

@@ -29,7 +29,11 @@ const usePermaTasks = () => {
   }, [])
 
   const addTask = useCallback((title, callbackAfterAdding) => {
-    const newTask = { title, comments: '' }
+    const newTask = { 
+      title, 
+      comments: '',
+      createdAt: new Date().toISOString() // 👈 добавляем
+    }
     tasksPermaAPI.add(newTask).then((addedTask) => {
       dispatch({ type: 'ADD', task: addedTask })
       callbackAfterAdding()

@@ -197,6 +197,15 @@
   }
 }
 
+.createdAt {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--color-gray-4);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .saveSuccess {
   color: #2e7d32;
   font-size: 0.95rem;
