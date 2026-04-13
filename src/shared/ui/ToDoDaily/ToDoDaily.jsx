@@ -32,7 +32,7 @@ const DailyFormWrapper = memo(({ onAddTask }) => {
   }, []);
 
   return (
-    <form className={styles.dailyForm} onSubmit={onSubmit}>
+    <form className={styles.dailyForm} onSubmit={onSubmit} autoComplete="off">
       <Field
         className={styles.field}
         label="Новая задача"

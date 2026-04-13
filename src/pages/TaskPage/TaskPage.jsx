@@ -6,15 +6,15 @@ import RouterLink from '@/shared/ui/RouterLink'
 
 // Форматирование даты для отображения
 const formatDate = (dateString) => {
-  if (!dateString) return null
-  const date = new Date(dateString)
-  return date.toLocaleDateString([], { 
-    day: 'numeric', 
-    month: 'long', 
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+    if (!dateString) return null
+    const date = new Date(dateString)
+    return date.toLocaleDateString([], {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    })
 }
 
 const TaskPage = (props) => {
@@ -75,7 +75,7 @@ const TaskPage = (props) => {
                 </span>
                 {formattedDate && (
                     <div className={styles.createdAt}>
-                       Создана: {formattedDate}
+                        Создана: {formattedDate}
                     </div>
                 )}
             </div>
@@ -87,7 +87,8 @@ const TaskPage = (props) => {
                     value={comments}
                     onChange={(e) => setComments(e.target.value)}
                     placeholder="Добавьте комментарий к задаче..."
-                    rows="6"
+                    rows="6" 
+                    autoComplete="off"
                 />
 
                 <div className={styles.actionsRow}>

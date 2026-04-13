@@ -15,21 +15,21 @@ const Field = (props) => {
 
   return (
     <div className={`${styles.field} ${className}`}>
-      <label
-        className={styles.label}
-        htmlFor={id}                    
-      >
+      <label className={styles.label} htmlFor={id}>
         {label}
       </label>
       <input
         className={`${styles.input} ${error ? styles.isInvalid: ''}`}
-        id={id}                          
+        id={id}
         ref={ref}
         placeholder=""
-        autoComplete="off"
-        type={type}                       
+        autoComplete={autoComplete}
+        type={type}
         value={value}
         onInput={onInput}
+        name={id}
+        spellCheck="false"
+        data-form-type="other"
       />
       {error && (
         <span className={styles.error} title={error}>{error}</span>

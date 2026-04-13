@@ -77,6 +77,7 @@ const PermaTaskPage = (props) => {
           onChange={(e) => setComments(e.target.value)}
           placeholder="Добавьте комментарий к заметке..."
           rows="6"
+           autoComplete="off"
         />
 
         <div className={styles.actionsRow}>
