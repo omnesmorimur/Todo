@@ -1,23 +1,37 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './Field.module.scss'
 
 const Field = (props) => {
   const {
     className = '',
-    id,
+    id: externalId,
     label,
     type = 'search',
     value,
     onInput,
-    ref,
+    ref: externalRef,
     error,
   } = props
 
+  // Генерируем уникальный ID при монтировании компонента
+  const [uniqueId] = useState(() => `field_${Math.random().toString(36).substr(2, 8)}`);
   const [isReadOnly, setIsReadOnly] = useState(true);
+  const internalRef = useRef(null);
+  
+  // Объединяем ref'ы
+  const setRefs = (element) => {
+    internalRef.current = element;
+    if (externalRef) {
+      if (typeof externalRef === 'function') {
+        externalRef(element);
+      } else {
+        externalRef.current = element;
+      }
+    }
+  };
 
   const handleFocus = (e) => {
     setIsReadOnly(false);
-    // Если нужно, можно вызвать оригинальный onFocus из props
     if (props.onFocus) props.onFocus(e);
   };
 
@@ -26,17 +40,24 @@ const Field = (props) => {
     if (props.onBlur) props.onBlur(e);
   };
 
+  // Уникальное имя для поля
+  const uniqueName = `field_${Math.random().toString(36).substr(2, 6)}`;
+
   return (
     <div className={`${styles.field} ${className}`}>
-      <label className={styles.label} htmlFor={id}>
+      <label className={styles.label} htmlFor={uniqueId}>
         {label}
       </label>
       <input
         className={`${styles.input} ${error ? styles.isInvalid: ''}`}
-        id={id}
-        ref={ref}
+        id={uniqueId}
+        name={uniqueName}
+        ref={setRefs}
         placeholder=""
-        autoComplete="false"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
         type={type}
         value={value}
         onInput={onInput}

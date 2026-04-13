@@ -5,7 +5,6 @@ import Field from '@/shared/ui/Field';
 import Clock from '@/shared/ui/Clock';
 import ResetTimer from '@/shared/ui/ResetTimer';
 
-// --- Форма добавления задачи ---
 const DailyFormWrapper = memo(({ onAddTask }) => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [error, setError] = useState('');
@@ -48,7 +47,6 @@ const DailyFormWrapper = memo(({ onAddTask }) => {
   );
 });
 
-// --- Список задач ---
 const DailyList = memo(({ tasks, onToggle, onDelete }) => (
   <ul className={styles.dailyList}>
     {tasks.map((task) => (
@@ -84,7 +82,6 @@ const DailyList = memo(({ tasks, onToggle, onDelete }) => (
   </ul>
 ));
 
-// --- Компонент настроек времени сброса ---
 const ResetTimeSettings = memo(({ resetHour, resetMinute, onSave }) => {
   const [hour, setHour] = useState(resetHour);
   const [minute, setMinute] = useState(resetMinute);
@@ -167,7 +164,6 @@ const ToDoDaily = memo(() => {
     localStorage.getItem('dailyTasksLastReset')
   );
 
-  // Получить текущее время в МСК
   const getCurrentMSKTime = useCallback(() => {
     const now = new Date();
     const mskTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
@@ -178,14 +174,12 @@ const ToDoDaily = memo(() => {
     };
   }, []);
 
-  // Получить текущую дату в МСК
   const getCurrentMSKDate = useCallback(() => {
     const now = new Date();
     const mskTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
     return mskTime.toISOString().split('T')[0];
   }, []);
 
-  // Проверка, нужно ли сбросить задачи
   const shouldReset = useCallback(() => {
     const currentDate = getCurrentMSKDate();
     const { hours, minutes } = getCurrentMSKTime();
@@ -197,7 +191,6 @@ const ToDoDaily = memo(() => {
     return false;
   }, [lastReset, resetHour, resetMinute, getCurrentMSKDate, getCurrentMSKTime]);
 
-  // Загрузка задач из localStorage
   const loadTasks = useCallback(() => {
     const saved = localStorage.getItem('dailyTasks');
     const lastResetFromStorage = localStorage.getItem('dailyTasksLastReset');
@@ -218,18 +211,15 @@ const ToDoDaily = memo(() => {
 
   const [dailyTasks, setDailyTasks] = useState(loadTasks);
 
-  // Сохранение в localStorage
   useEffect(() => {
     localStorage.setItem('dailyTasks', JSON.stringify(dailyTasks));
   }, [dailyTasks]);
 
-  // Сохранение настроек времени при изменении
   useEffect(() => {
     localStorage.setItem('dailyTasksResetHour', resetHour);
     localStorage.setItem('dailyTasksResetMinute', resetMinute);
   }, [resetHour, resetMinute]);
 
-  // Функция сброса
   const performReset = useCallback(() => {
     const currentDate = getCurrentMSKDate();
     setDailyTasks(prev => {
@@ -240,7 +230,6 @@ const ToDoDaily = memo(() => {
     });
   }, [getCurrentMSKDate]);
 
-  // Проверка каждую секунду (только на сброс, без обновления таймера)
   useEffect(() => {
     const checkReset = () => {
       if (shouldReset()) {
@@ -252,7 +241,6 @@ const ToDoDaily = memo(() => {
     return () => clearInterval(interval);
   }, [shouldReset, performReset]);
 
-  // Проверка при монтировании и при возвращении на страницу
   useEffect(() => {
     const checkAndReset = () => {
       if (shouldReset()) {
