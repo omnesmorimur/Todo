@@ -23,6 +23,7 @@ const SearchTaskForm = memo(({ styles }) => {
         id="search-task"
         value={value}
         onInput={onInput}
+        type="search"
       />
     </div>
   );
