@@ -1,1 +1,0 @@
-export { default as useSpellCheck } from './useSpellCheck';

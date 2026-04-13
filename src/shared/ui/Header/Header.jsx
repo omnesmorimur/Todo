@@ -12,11 +12,6 @@ const Header = () => {
     const saved = localStorage.getItem('smoothScroll');
     return saved !== null ? saved === 'true' : false;
   });
-  
-  const [isSpellCheck, setIsSpellCheck] = useState(() => {
-    const saved = localStorage.getItem('spellCheck');
-    return saved !== null ? saved === 'true' : true;
-  });
 
   const menuRef = useRef(null);
 
@@ -24,10 +19,6 @@ const Header = () => {
     localStorage.setItem('smoothScroll', isSmoothScroll);
     document.documentElement.style.scrollBehavior = isSmoothScroll ? 'smooth' : 'auto';
   }, [isSmoothScroll]);
-
-  useEffect(() => {
-    localStorage.setItem('spellCheck', isSpellCheck);
-  }, [isSpellCheck]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -123,14 +114,6 @@ const Header = () => {
                 onChange={(e) => setIsSmoothScroll(e.target.checked)}
               />
               <span>🔄 Плавная прокрутка</span>
-            </label>
-            <label className={styles.option}>
-              <input
-                type="checkbox"
-                checked={isSpellCheck}
-                onChange={(e) => setIsSpellCheck(e.target.checked)}
-              />
-              <span>📝 Проверка орфографии</span>
             </label>
           </div>
         )}

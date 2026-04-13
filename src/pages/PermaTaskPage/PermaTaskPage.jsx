@@ -65,7 +65,7 @@ const PermaTaskPage = (props) => {
 
       {formattedDate && (
         <div className={styles.createdAt}>
-          Создана: {formattedDate}
+          📅 Создана: {formattedDate}
         </div>
       )}
 
