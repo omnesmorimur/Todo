@@ -6,7 +6,10 @@ import {
     useEffect,
     useReducer
 } from 'react'
-import tasksLocalAPI from '@/shared/api/tasks/tasksLocalAPI' // Измененный импорт
+import tasksLocalAPI from '@/shared/api/tasks/tasksLocalAPI'
+
+// Проверка на мобильное устройство
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
 const tasksReducer = (state, action) => {
     switch (action.type) {
@@ -70,28 +73,33 @@ const useTasks = () => {
 
     const addTask = useCallback((title, callbackAfterAdding) => {
         const newTask = {
-          title,
-          isDone: false,
-          comments: '',
-          createdAt: new Date().toISOString() // 👈 добавляем
+            title,
+            isDone: false,
+            comments: '',
+            createdAt: new Date().toISOString()
         }
-      
+
         tasksLocalAPI.add(newTask)
-          .then((addedTask) => {
-            dispatch({ type: 'ADD', task: addedTask })
-            callbackAfterAdding()
-            setSearchQuery('')
-            newTaskInputRef.current.focus()
-            setAppearingTaskId(addedTask.id)
-            setTimeout(() => {
-              setAppearingTaskId(null)
-            }, 400)
-          })
-      }, [])
+            .then((addedTask) => {
+                dispatch({ type: 'ADD', task: addedTask })
+                callbackAfterAdding()
+                setSearchQuery('')
+                // Фокус только на десктопах
+                if (!isMobile) {
+                    newTaskInputRef.current?.focus()
+                }
+                setAppearingTaskId(addedTask.id)
+                setTimeout(() => {
+                    setAppearingTaskId(null)
+                }, 400)
+            })
+    }, [])
 
     useEffect(() => {
-        newTaskInputRef.current?.focus()
-
+        // Фокус только на десктопах при загрузке
+        if (!isMobile) {
+            newTaskInputRef.current?.focus()
+        }
         tasksLocalAPI.getAll().then((serverTasks) => {
             dispatch({ type: 'SET_ALL', task: serverTasks })
         })
