@@ -67,7 +67,7 @@ const Timer = () => {
           gainNode.connect(audioContext.destination);
 
           oscillator.frequency.value = frequency;
-          gainNode.gain.value = 0.45;
+          gainNode.gain.value = 1.45;
 
           oscillator.start();
           gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + duration);
