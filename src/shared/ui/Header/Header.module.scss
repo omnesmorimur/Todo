@@ -40,12 +40,10 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 4px 12px;
+  padding-top: 4px;
+  padding-inline: 4px 6px;
   border-radius: var(--border-radius);
 
-  &:hover {
-    background-color: var(--color-gray-1);
-  }
 }
 
 .dropdown {

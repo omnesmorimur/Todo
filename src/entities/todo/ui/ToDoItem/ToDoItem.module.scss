@@ -16,7 +16,7 @@
     transition-duration: calc(var(--transition-duration) * 2);
     pointer-events: none;
 
-    & ~ .todoItem {
+    &~.todoItem {
       translate: 0 calc((100% + var(--todoListRowGap)) * -1);
       transition-delay: var(--transition-duration);
       transition-duration: var(--transition-duration);
@@ -32,10 +32,18 @@
       from {
         opacity: 0;
         translate: 0 -75%;
-      } 
+      }
     }
 
   }
+}
+
+a {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .checkbox {
@@ -52,7 +60,7 @@
     background-color: var(--color-dark-2);
     border-color: var(--color-dark-2);
 
-    & + .label {
+    &+.label {
       color: var(--color-gray-4);
       text-decoration: line-through;
     }
@@ -89,7 +97,7 @@
   background-color: transparent;
   border: none;
   border-radius: inherit;
-  
+
 
   &:hover {
     color: var(--color-white);
@@ -111,5 +119,13 @@
   gap: 12px;
   cursor: pointer;
 
+}
+
+[data-theme="dark"] .checkbox {
+  &:checked {
+    background-color: var(--text-secondary);
+    background-color: var(--color-orangerede);
+    border-color: var(--color-dark);
+  }
 }
 

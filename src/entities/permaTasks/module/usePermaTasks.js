@@ -32,7 +32,7 @@ const usePermaTasks = () => {
     const newTask = { 
       title, 
       comments: '',
-      createdAt: new Date().toISOString() // 👈 добавляем
+      createdAt: new Date().toISOString()
     }
     tasksPermaAPI.add(newTask).then((addedTask) => {
       dispatch({ type: 'ADD', task: addedTask })

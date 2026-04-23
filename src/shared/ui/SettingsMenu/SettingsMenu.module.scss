@@ -7,11 +7,10 @@
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
-    padding: 4px 12px;
     border-radius: var(--border-radius);
     
     &:hover {
-      background-color: var(--color-gray-1);
+      background-color: var(--color-gray-2);
     }
   }
   

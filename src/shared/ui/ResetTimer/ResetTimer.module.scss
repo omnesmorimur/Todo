@@ -24,3 +24,7 @@
     font-size: 11px;
     color: var(--color-gray-3);
   }
+
+  [data-theme="dark"] .time {
+    color: var(--color-orangered);
+  }

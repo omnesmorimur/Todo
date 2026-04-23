@@ -96,3 +96,23 @@
     background: var(--color-gold);
   }
 }
+
+.button {
+  border: 0.2rem solid var(--text-primary);
+  color: var(--text-primary);
+  box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
+  
+  &:hover:not(:disabled) {
+    background-color: var(--bg-azure);
+  }
+}
+
+.primary {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.secondary {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}

@@ -10,8 +10,7 @@
   font-family: inherit;
 
   &.completed {
-    background-color: #e8f5e9;
-    border-color: #4caf50;
+    background-color: var(--color-white);
   }
 }
 
@@ -35,21 +34,7 @@
   justify-content: center;
 }
 
-.timeInput {
-  width: 60px;
-  height: 40px;
-  text-align: center;
-  border: var(--border);
-  border-radius: var(--border-radius);
-  font-size: 16px;
-  padding: 0 4px;
-  font-family: inherit;
 
-  &:focus {
-    outline: none;
-    border-color: var(--color-dark-2);
-  }
-}
 
 .timeInputs span {
   font-size: 20px;
@@ -106,5 +91,21 @@
   .timer {
     width: auto;
     min-width: 404px;
+  }
+}
+
+[data-theme="dark"] .timer {
+  &.completed {
+    border-color: #2e7d32;
+  }
+}
+
+[data-theme="dark"] .timeInput {
+  background-color: var(--color-gray-1);
+  color: var(--color-orangered);
+  border-color: var(--color-white);
+
+  &:focus {
+    border-color: var(--color-orangered);
   }
 }

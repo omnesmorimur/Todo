@@ -13,12 +13,10 @@ const Field = (props) => {
     error,
   } = props
 
-  // Генерируем уникальный ID при монтировании компонента
   const [uniqueId] = useState(() => `field_${Math.random().toString(36).substr(2, 8)}`);
   const [isReadOnly, setIsReadOnly] = useState(true);
   const internalRef = useRef(null);
   
-  // Объединяем ref'ы
   const setRefs = (element) => {
     internalRef.current = element;
     if (externalRef) {
@@ -40,7 +38,6 @@ const Field = (props) => {
     if (props.onBlur) props.onBlur(e);
   };
 
-  // Уникальное имя для поля
   const uniqueName = `field_${Math.random().toString(36).substr(2, 6)}`;
 
   return (

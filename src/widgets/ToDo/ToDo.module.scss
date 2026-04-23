@@ -10,7 +10,10 @@
   background-color: var(--color-white);
   border: var(--border);
   box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
-
+  width: 100%;
+  max-width: 404px;
+  min-width: 404px;
+  
   @media (max-width: 800px) {
     padding: 1rem;
     border: none;
@@ -32,6 +35,7 @@
 
 .field {
   width: 100%;
+  min-width: 0;
 }
 
 .info {
@@ -80,4 +84,8 @@ a {
 a:hover {
   color: orangered;
   text-decoration: underline;
+}
+
+[data-theme="dark"] .title {
+  color: var(--color-orangerede);
 }

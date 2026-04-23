@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './Header.module.scss';
+import { useTheme } from '@/shared/context';
 
 const Header = () => {
   const headerRef = useRef(null);
@@ -13,6 +14,7 @@ const Header = () => {
     return saved !== null ? saved === 'true' : false;
   });
 
+  const { isDarkTheme, toggleTheme } = useTheme();
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -36,17 +38,17 @@ const Header = () => {
 
     const scrollPosition = () => window.scrollY || document.documentElement.scrollTop;
     const containHide = () => header.classList.contains(styles.hide);
-    
+
     const handleScroll = () => {
       const currentScroll = scrollPosition();
       const scrollDelta = currentScroll - lastScroll.current;
       const scrollingDown = scrollDelta > 0;
-      
+
       if (scrollingDown && currentScroll > 0) {
         if (!containHide()) {
           header.classList.remove(styles.show);
           header.classList.add(styles.hide);
-          showPosition.current = currentScroll; 
+          showPosition.current = currentScroll;
         }
 
         if (currentScroll > showPosition.current + fullHideOffset) {
@@ -55,7 +57,7 @@ const Header = () => {
       } else if (!scrollingDown) {
         header.classList.remove(styles.hide, styles.fullhide);
         header.classList.add(styles.show);
-        showPosition.current = currentScroll; 
+        showPosition.current = currentScroll;
       }
 
       lastScroll.current = currentScroll;
@@ -78,7 +80,7 @@ const Header = () => {
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
-        
+
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
           const bgColor = getComputedStyle(section).backgroundColor;
           if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
@@ -95,16 +97,16 @@ const Header = () => {
   return (
     <header className={`${styles.header} ${styles.show}`} ref={headerRef}>
       <div className={styles.logo}>ToDo List</div>
-      
+
       <div className={styles.settings} ref={menuRef}>
-        <button 
-          className={styles.settingsButton} 
+        <button
+          className={styles.settingsButton}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Настройки"
         >
           ⚙️ Настройки
         </button>
-        
+
         {isOpen && (
           <div className={styles.dropdown}>
             <label className={styles.option}>
@@ -114,6 +116,14 @@ const Header = () => {
                 onChange={(e) => setIsSmoothScroll(e.target.checked)}
               />
               <span>🔄 Плавная прокрутка</span>
+            </label>
+            <label className={styles.option}>
+              <input
+                type="checkbox"
+                checked={isDarkTheme}
+                onChange={toggleTheme}
+              />
+              <span>🌙 Тёмная тема</span>
             </label>
           </div>
         )}

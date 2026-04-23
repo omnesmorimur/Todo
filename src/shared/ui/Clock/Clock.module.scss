@@ -27,3 +27,8 @@
       font-size: 0.7rem;
     }
   }
+
+  [data-theme="dark"] .time,
+  [data-theme="dark"] .date {
+    color: var(--color-black);
+  }
