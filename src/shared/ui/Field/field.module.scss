@@ -1,7 +1,7 @@
 .field {
   position: relative;
   caret-shape: block;
-  caret-color: var(--colo-orangerede);
+  caret-color: var(--color-orangerede);
   width: 100%;
   
   &:has(.input:not(:placeholder-shown)) .label {

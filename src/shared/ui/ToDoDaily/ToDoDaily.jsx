@@ -343,12 +343,6 @@ const ToDoDaily = memo(() => {
       ) : (
         <div className={styles.dailyEmpty}>Нет ежедневных задач</div>
       )}
-
-      <div className={styles.dailyFooter}>
-        <Button2 variant="primary" size="medium" onClick={forceReset}>
-          🔄 Принудительный сброс отметок
-        </Button2>
-      </div>
     </div>
   );
 });

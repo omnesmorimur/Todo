@@ -199,14 +199,16 @@
 }
 
 .createdAt {
-  margin-top: 8px;
+  margin-top: .5rem;
   font-size: 0.8rem;
   color: var(--color-gray-4);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: .5rem;
 }
-
+.taskPage > .createdAt {
+  padding: 0 0 0.6rem 1.25rem;
+}
 .saveSuccess {
   color: #2e7d32;
   font-size: 0.95rem;
