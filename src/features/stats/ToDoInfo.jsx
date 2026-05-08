@@ -2,16 +2,16 @@ import { memo, useContext, useMemo } from 'react'
 import { TasksContext } from '@/entities/todo'
 
 const ToDoInfo = (props) => {
-  const {styles} = props
+  const { styles } = props
   const {
     tasks,
-    deleteAllTasks,
+    archiveAllTasks,
   } = useContext(TasksContext)
 
   const total = tasks.length
   const hasTasks = total > 0
   const done = useMemo(() => {
-    return tasks.filter(({isDone}) => isDone).length
+    return tasks.filter(({ isDone }) => isDone).length
   }, [tasks])
 
   return (
@@ -21,11 +21,11 @@ const ToDoInfo = (props) => {
       </div>
       {hasTasks && (
         <button
-          className={styles.deleteAllButton}
+          className={styles.archiveAllButton}
           type="button"
-          onClick={deleteAllTasks}
+          onClick={archiveAllTasks}
         >
-          Удалить всё
+          📦 Архивировать всё
         </button>
       )}
     </div>

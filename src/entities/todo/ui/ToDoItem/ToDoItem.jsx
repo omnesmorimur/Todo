@@ -14,7 +14,7 @@ const ToDoItem = (props) => {
   const {
     firstIncompleteTaskRef,
     firstIncompleteTaskId,
-    deleteTask,
+    archiveTask,           // ← было deleteTask
     toggleTaskComplete,
     disappearingTaskId,
     appearingTaskId,
@@ -50,9 +50,9 @@ const ToDoItem = (props) => {
       </RouterLink>
       <button
         className={styles.deleteButton}
-        aria-label="Delete"
-        title="Delete"
-        onClick={() => deleteTask(id)}
+        aria-label="Archive"
+        title="Archive"
+        onClick={() => archiveTask(id)}    // ← было deleteTask(id)
         type="button"
       >
         <svg

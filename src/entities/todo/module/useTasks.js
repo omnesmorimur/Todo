@@ -7,8 +7,8 @@ import {
     useReducer
 } from 'react'
 import tasksLocalAPI from '@/shared/api/tasks/tasksLocalAPI'
+import archiveAPI from '@/shared/api/tasks/archiveAPI'
 
-// Проверка на мобильное устройство
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
 const tasksReducer = (state, action) => {
@@ -45,28 +45,44 @@ const useTasks = () => {
 
     const newTaskInputRef = useRef(null)
 
-    const deleteAllTasks = useCallback(() => {
-        const isConfirmed = confirm('Are you sure you want delete all?')
+    const archiveAllTasks = useCallback(() => {
+        const isConfirmed = confirm('Переместить все задачи в архив? Их можно будет восстановить.')
+        if (!isConfirmed) return
 
-        if (isConfirmed) {
-            tasksLocalAPI.deleteAll(tasks)
-                .then(() => dispatch({ type: 'DELETE_ALL' }))
-        }
+        // Сначала удаляем из основного хранилища, потом архивируем
+        Promise.all(tasks.map(task => 
+            tasksLocalAPI.delete(task.id).then(() => task)
+        )).then((deletedTasks) => {
+            return Promise.all(deletedTasks.map(task => archiveAPI.archiveTask(task)))
+        }).then(() => {
+            dispatch({ type: 'DELETE_ALL' })
+        }).catch((error) => {
+            console.error('Ошибка при архивации всех задач:', error)
+        })
     }, [tasks])
 
-    const deleteTask = useCallback((taskId) => {
+    const archiveTask = useCallback((taskId) => {
+        const taskToArchive = tasks.find(t => t.id === taskId)
+        if (!taskToArchive) return
+
+        setDisappearingTaskId(taskId)
+        
+        // Сначала удаляем из основного хранилища
         tasksLocalAPI.delete(taskId)
-          .then(() => {
-            setDisappearingTaskId(taskId)
-            setTimeout(() => {
-              dispatch({ type: 'DELETE', id: taskId })
-              setDisappearingTaskId(null)
-            }, 400)
-          })
-          .catch((error) => {
-            console.error('Ошибка при удалении:', error)
-          })
-      }, [])
+            .then(() => {
+                return archiveAPI.archiveTask(taskToArchive)
+            })
+            .then(() => {
+                setTimeout(() => {
+                    dispatch({ type: 'DELETE', id: taskId })
+                    setDisappearingTaskId(null)
+                }, 400)
+            })
+            .catch((error) => {
+                console.error('Ошибка при архивации:', error)
+                setDisappearingTaskId(null)
+            })
+    }, [tasks])
 
     const toggleTaskComplete = useCallback((taskId, isDone) => {
         tasksLocalAPI.toggleComplete(taskId, isDone).then(() => {
@@ -87,7 +103,6 @@ const useTasks = () => {
                 dispatch({ type: 'ADD', task: addedTask })
                 callbackAfterAdding()
                 setSearchQuery('')
-                // Фокус только на десктопах
                 if (!isMobile) {
                     newTaskInputRef.current?.focus()
                 }
@@ -99,7 +114,6 @@ const useTasks = () => {
     }, [])
 
     useEffect(() => {
-        // Фокус только на десктопах при загрузке
         if (!isMobile) {
             newTaskInputRef.current?.focus()
         }
@@ -110,7 +124,6 @@ const useTasks = () => {
 
     const filteredTasks = useMemo(() => {
         const clearSearchQuery = searchQuery.trim().toLowerCase()
-
         return clearSearchQuery.length > 0
             ? tasks.filter(({ title }) => title.toLowerCase().includes(clearSearchQuery))
             : null
@@ -119,8 +132,8 @@ const useTasks = () => {
     return {
         tasks,
         filteredTasks,
-        deleteTask,
-        deleteAllTasks,
+        archiveTask,
+        archiveAllTasks,
         toggleTaskComplete,
         searchQuery,
         setSearchQuery,

@@ -26,6 +26,56 @@ const tasksLocalAPI = {
     })
   },
 
+  delete: (id) => {
+    return new Promise((resolve) => {
+      const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
+      const parsedTasks = tasks ? JSON.parse(tasks) : []
+
+      const updatedTasks = parsedTasks.filter(task => task.id !== id)
+      localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(updatedTasks))
+
+      resolve()
+    })
+  },
+
+
+  restore: (task) => {
+    return new Promise((resolve) => {
+      const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
+      const parsedTasks = tasks ? JSON.parse(tasks) : []
+
+      // Проверяем, нет ли уже такой задачи
+      const existingIndex = parsedTasks.findIndex(t => t.id === task.id)
+      if (existingIndex !== -1) {
+        // Если есть — обновляем
+        parsedTasks[existingIndex] = task
+      } else {
+        // Если нет — добавляем
+        parsedTasks.push(task)
+      }
+
+      localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(parsedTasks))
+      resolve(task)
+    })
+  },
+
+  restore: (task) => {
+    return new Promise((resolve) => {
+      const tasks = localStorage.getItem(TASKS_STORAGE_KEY)
+      const parsedTasks = tasks ? JSON.parse(tasks) : []
+
+      const existingIndex = parsedTasks.findIndex(t => t.id === task.id)
+      if (existingIndex !== -1) {
+        parsedTasks[existingIndex] = task
+      } else {
+        parsedTasks.push(task)
+      }
+
+      localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(parsedTasks))
+      resolve(task)
+    })
+  },
+  
   add: (task) => {
     return new Promise((resolve) => {
       const tasks = localStorage.getItem(TASKS_STORAGE_KEY)

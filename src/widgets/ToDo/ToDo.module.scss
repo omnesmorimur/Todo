@@ -87,5 +87,21 @@ a:hover {
 }
 
 [data-theme="dark"] .title {
-  color: var(--color-orangerede);
+  color: var(--color-orangered);
+}
+
+.archiveLink {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.archiveAllButton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--color-orangered);
+  }
 }
