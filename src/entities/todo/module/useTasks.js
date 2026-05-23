@@ -28,6 +28,9 @@ const tasksReducer = (state, action) => {
         case 'DELETE': {
             return state.filter((task) => task.id !== action.id)
         }
+        case 'DELETE_COMPLETED': {
+            return state.filter((task) => task.isDone !== true)
+        }
         case 'DELETE_ALL': {
             return []
         }
@@ -45,29 +48,12 @@ const useTasks = () => {
 
     const newTaskInputRef = useRef(null)
 
-    const archiveAllTasks = useCallback(() => {
-        const isConfirmed = confirm('Переместить все задачи в архив? Их можно будет восстановить.')
-        if (!isConfirmed) return
-
-        // Сначала удаляем из основного хранилища, потом архивируем
-        Promise.all(tasks.map(task => 
-            tasksLocalAPI.delete(task.id).then(() => task)
-        )).then((deletedTasks) => {
-            return Promise.all(deletedTasks.map(task => archiveAPI.archiveTask(task)))
-        }).then(() => {
-            dispatch({ type: 'DELETE_ALL' })
-        }).catch((error) => {
-            console.error('Ошибка при архивации всех задач:', error)
-        })
-    }, [tasks])
-
     const archiveTask = useCallback((taskId) => {
         const taskToArchive = tasks.find(t => t.id === taskId)
         if (!taskToArchive) return
 
         setDisappearingTaskId(taskId)
         
-        // Сначала удаляем из основного хранилища
         tasksLocalAPI.delete(taskId)
             .then(() => {
                 return archiveAPI.archiveTask(taskToArchive)
@@ -82,6 +68,43 @@ const useTasks = () => {
                 console.error('Ошибка при архивации:', error)
                 setDisappearingTaskId(null)
             })
+    }, [tasks])
+
+    const archiveAllTasks = useCallback(() => {
+        const isConfirmed = confirm('Переместить все задачи в архив? Их можно будет восстановить.')
+        if (!isConfirmed) return
+
+        Promise.all(tasks.map(task => 
+            tasksLocalAPI.delete(task.id).then(() => task)
+        )).then((deletedTasks) => {
+            return Promise.all(deletedTasks.map(task => archiveAPI.archiveTask(task)))
+        }).then(() => {
+            dispatch({ type: 'DELETE_ALL' })
+        }).catch((error) => {
+            console.error('Ошибка при архивации всех задач:', error)
+        })
+    }, [tasks])
+
+    const archiveCompletedTasks = useCallback(() => {
+        const completedTasks = tasks.filter(task => task.isDone === true)
+        
+        if (completedTasks.length === 0) {
+            alert('Нет выполненных задач для архивации')
+            return
+        }
+        
+        const isConfirmed = confirm(`Переместить ${completedTasks.length} выполненных задач в архив? Их можно будет восстановить.`)
+        if (!isConfirmed) return
+      
+        Promise.all(completedTasks.map(task => 
+            tasksLocalAPI.delete(task.id).then(() => task)
+        )).then((deletedTasks) => {
+            return Promise.all(deletedTasks.map(task => archiveAPI.archiveTask(task)))
+        }).then(() => {
+            dispatch({ type: 'DELETE_COMPLETED' })
+        }).catch((error) => {
+            console.error('Ошибка при архивации выполненных задач:', error)
+        })
     }, [tasks])
 
     const toggleTaskComplete = useCallback((taskId, isDone) => {
@@ -134,6 +157,7 @@ const useTasks = () => {
         filteredTasks,
         archiveTask,
         archiveAllTasks,
+        archiveCompletedTasks,
         toggleTaskComplete,
         searchQuery,
         setSearchQuery,

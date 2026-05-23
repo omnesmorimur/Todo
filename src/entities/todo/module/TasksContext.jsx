@@ -11,8 +11,8 @@ export const TasksProvider = (props) => {
   const {
     tasks,
     filteredTasks,
-    archiveTask,           // ← было deleteTask
-    archiveAllTasks,      // ← было deleteAllTasks
+    archiveTask,
+    archiveCompletedTasks,
     toggleTaskComplete,
     searchQuery,
     setSearchQuery,
@@ -31,8 +31,8 @@ export const TasksProvider = (props) => {
     () => ({
       tasks,
       filteredTasks,
-      archiveTask,           // ← было deleteTask
-      archiveAllTasks,      // ← было deleteAllTasks
+      archiveTask,
+      archiveCompletedTasks,
       toggleTaskComplete,
       searchQuery,
       setSearchQuery,
@@ -47,8 +47,8 @@ export const TasksProvider = (props) => {
     [
       tasks,
       filteredTasks,
-      archiveTask,           // ← было deleteTask
-      archiveAllTasks,      // ← было deleteAllTasks
+      archiveTask,
+      archiveCompletedTasks,
       toggleTaskComplete,
       searchQuery,
       setSearchQuery,
