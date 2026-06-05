@@ -87,12 +87,12 @@ const TaskPage = (props) => {
                     value={comments}
                     onChange={(e) => setComments(e.target.value)}
                     placeholder="Добавьте комментарий к задаче..."
-                    rows="6" 
+                    rows="6"
                 />
 
                 <div className={styles.actionsRow}>
                     <div className={styles.backLink}>
-                        <RouterLink to="/">
+                        <RouterLink to="/tasks">
                             <Button2 variant="secondary" size="small">
                                 ← Назад к списку
                             </Button2>

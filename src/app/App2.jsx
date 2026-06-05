@@ -1,4 +1,5 @@
 import Router from "./routing/Router";
+import HomePage from "@/pages/HomePage";
 import TaskPage from "@/pages/TaskPage";
 import PermaTaskPage from "@/pages/PermaTaskPage";
 import TasksPage from "@/pages/TasksPage";
@@ -13,7 +14,8 @@ import './styles';
 
 const App2 = () => {
   const routes = {
-    '/': TasksPage,
+    '/': HomePage,                      // 👈 стартовая страница
+    '/tasks': TasksPage,                // 👈 список задач
     '/tasks/:id': TaskPage,
     '/perma/:id': PermaTaskPage,
     '/archive': ArchivePage,
@@ -24,11 +26,12 @@ const App2 = () => {
   
   const path = useRoute();
   
-  // Показываем Header на всех страницах, кроме страниц задач и заметок
   const isTaskPage = path.startsWith('/tasks/');
   const isPermaTaskPage = path.startsWith('/perma/');
   const isArchivedTaskPage = path.startsWith('/archive/') && path !== '/archive';
-  const showHeader = !isTaskPage && !isPermaTaskPage && !isArchivedTaskPage;
+  const isTaskListPage = path === '/tasks';
+  const isHomePage = path === '/';
+  const showHeader = !isTaskPage && !isPermaTaskPage && !isArchivedTaskPage && !isTaskListPage && !isHomePage;
   
   return (
     <ThemeProvider>

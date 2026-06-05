@@ -1,0 +1,227 @@
+.weatherWrapper {
+    flex: 1;
+    width: 660px;
+    min-width: 200px;
+    padding: 16px;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: var(--border);
+}
+
+.weatherTitle {
+    margin: 0 0 12px 0;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.weatherSearch {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.searchContainer {
+    flex: 1;
+    position: relative;
+}
+
+.weatherInput {
+    width: 100%;
+    height: 36px;
+    padding: 0 12px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.citySuggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--bg-primary);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    z-index: 100;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.citySuggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: background-color 0.2s ease;
+}
+
+.citySuggestions li:hover {
+    background-color: var(--bg-primary);
+}
+
+.weatherCurrent {
+    margin-bottom: 16px;
+}
+
+.weatherMain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.weatherIcon {
+    font-size: 48px;
+}
+
+.weatherTempMain {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.weatherTemp {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: -8px;
+}
+
+.weatherDesc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.weatherDetails {
+    text-align: center;
+}
+
+.weatherCity {
+    font-weight: 600;
+}
+
+.weatherWind {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.weatherTabs {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0 12px;
+    border-bottom: var(--border);
+}
+
+.tab {
+    flex: 1;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.tab.active {
+    color: var(--color-orangered);
+    border-bottom: 2px solid var(--color-orangered);
+}
+
+.hourlyForecast {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+.hourlyItem {
+    flex-shrink: 0;
+    text-align: center;
+    min-width: 60px;
+    padding: 8px;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+}
+
+.hourlyTime {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.hourlyIcon {
+    font-size: 1.5rem;
+    margin: 4px 0;
+}
+
+.hourlyTemp {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.pastHour {
+    opacity: 0.6;
+}
+
+.currentHour {
+    background-color: var(--color-orangerede);
+    color: var(--color-white);
+    transform: scale(1.02);
+}
+
+.dailyForecast {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    justify-content: space-around;
+}
+
+.dailyItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius);
+}
+
+.dailyDay {
+    width: 40px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.dailyIcon {
+    font-size: 1.2rem;
+}
+
+.dailyTemp {
+    display: flex;
+    gap: 8px;
+}
+
+.dailyMax {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.dailyMin {
+    color: var(--text-secondary);
+}
+
+.weatherLoading,
+.weatherError {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}

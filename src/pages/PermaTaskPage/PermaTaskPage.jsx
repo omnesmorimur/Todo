@@ -7,9 +7,9 @@ import RouterLink from '@/shared/ui/RouterLink'
 const formatDate = (dateString) => {
   if (!dateString) return null
   const date = new Date(dateString)
-  return date.toLocaleDateString([], { 
-    day: 'numeric', 
-    month: 'long', 
+  return date.toLocaleDateString([], {
+    day: 'numeric',
+    month: 'long',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
@@ -81,8 +81,8 @@ const PermaTaskPage = (props) => {
 
         <div className={styles.actionsRow}>
           <div className={styles.backLink}>
-            <RouterLink to="/">
-              <Button2 variant="outline" size="small">
+            <RouterLink to="/tasks">
+              <Button2 variant="secondary" size="small">
                 ← Назад к списку
               </Button2>
             </RouterLink>
