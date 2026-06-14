@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './Header.module.scss';
 import { useTheme } from '@/shared/context';
+import RouterLink from '@/shared/ui/RouterLink';
 
 const Header = () => {
   const headerRef = useRef(null);
@@ -96,8 +97,12 @@ const Header = () => {
 
   return (
     <header className={`${styles.header} ${styles.show}`} ref={headerRef}>
+      <div className={styles.logo}>
+        <RouterLink to="/" className={styles.homeLink}>
+          ← На главную
+        </RouterLink>
+      </div>
       <div className={styles.logo}>ToDo List</div>
-
       <div className={styles.settings} ref={menuRef}>
         <button
           className={styles.settingsButton}

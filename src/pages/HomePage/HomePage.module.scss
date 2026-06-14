@@ -45,6 +45,7 @@
 
 .quickNote {
   width: 100%;
+  min-height: 30dvh;
   padding: 12px;
   border: var(--border);
   border-radius: var(--border-radius);
@@ -89,15 +90,15 @@
 
 @media (max-width: 600px) {
   .homePage {
-      min-width: auto;
-      margin: 0;
-      border-radius: 0;
-      border-left: none;
-      border-right: none;
+    min-width: auto;
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
-  
+
   .tasksSection {
-      flex-direction: column;
-      text-align: center;
+    flex-direction: column;
+    text-align: center;
   }
 }

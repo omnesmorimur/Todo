@@ -14,8 +14,8 @@ import './styles';
 
 const App2 = () => {
   const routes = {
-    '/': HomePage,                      // 👈 стартовая страница
-    '/tasks': TasksPage,                // 👈 список задач
+    '/': HomePage,
+    '/tasks': TasksPage, 
     '/tasks/:id': TaskPage,
     '/perma/:id': PermaTaskPage,
     '/archive': ArchivePage,
@@ -31,7 +31,7 @@ const App2 = () => {
   const isArchivedTaskPage = path.startsWith('/archive/') && path !== '/archive';
   const isTaskListPage = path === '/tasks';
   const isHomePage = path === '/';
-  const showHeader = !isTaskPage && !isPermaTaskPage && !isArchivedTaskPage && !isTaskListPage && !isHomePage;
+  const showHeader = !isTaskPage && !isPermaTaskPage && !isArchivedTaskPage && !isHomePage;
   
   return (
     <ThemeProvider>
