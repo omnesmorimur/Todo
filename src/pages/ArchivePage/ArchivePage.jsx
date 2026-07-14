@@ -70,11 +70,10 @@ const ArchivePage = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>📦 Архив задач</h1>
         <div className={styles.controls}>
-
           <Button2 variant="outline" size="small" onClick={clearAllArchive}>
             🗑️ Очистить архив
           </Button2>
-            <RouterLink to="/">
+            <RouterLink to="/tasks">
               <Button2 variant="secondary" size="small">
                 ← Назад к задачам
               </Button2>
@@ -86,7 +85,7 @@ const ArchivePage = () => {
       {archivedTasks.length === 0 ? (
         <div className={styles.empty}>
           <p>Архив пуст</p>
-          <RouterLink to="/">
+          <RouterLink to="/tasks">
             <Button2 variant="primary" size="medium">
               Перейти к задачам
             </Button2>
@@ -94,8 +93,6 @@ const ArchivePage = () => {
         </div>
       ) : (
         <>
-
-
           <ul className={styles.list}>
             {archivedTasks.map((task) => (
               <li key={task.id} className={styles.item}>

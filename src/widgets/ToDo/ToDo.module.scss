@@ -44,6 +44,8 @@
   align-items: center;
   column-gap: 16px;
   font-weight: 600;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .list,
@@ -91,17 +93,24 @@ a:hover {
 }
 
 .archiveLink {
-  margin-top: 8px;
+  margin-top: -8px;
   text-align: center;
 }
 
 .archiveCompletedButton {
-  padding: 0;
-  border: none;
+  padding: 6px;
   background-color: transparent;
+  border: 0.2rem solid var(--text-primary);
+  color: var(--text-primary);
+  box-shadow: 0.313rem 0.313rem 0px 0px var(--shadow);
 
   &:hover {
-    background-color: transparent;
-    color: var(--color-orangered);
+      background-color: var(--bg-azure);
   }
 }
+
+.archiveLink button {
+  margin-bottom: -8px;
+}
+
+
