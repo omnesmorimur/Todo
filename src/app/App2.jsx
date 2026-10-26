@@ -1,3 +1,4 @@
+import { useEffect } from "react"; // <-- 1. Добавляем импорт useEffect
 import Router from "./routing/Router";
 import HomePage from "@/pages/HomePage";
 import TaskPage from "@/pages/TaskPage";
@@ -26,6 +27,18 @@ const App2 = () => {
   
   const path = useRoute();
   
+  // --- 2. ДОБАВЛЯЕМ БЛОК ОТСЛЕЖИВАНИЯ МЕТРИКИ ---
+  useEffect(() => {
+    // Проверяем, что скрипт Метрики загрузился (окно window существует)
+    if (window.ym) {
+      // Отправляем "хит" (просмотр страницы).
+      // 113811484 - это ID вашего счетчика.
+      // window.location.href передаст полный текущий URL (включая /Todo/)
+      window.ym(113811484, 'hit', window.location.href);
+    }
+  }, [path]); // Эффект сработает при первом рендере и при каждом изменении path
+  // ---------------------------------------------
+
   const isTaskPage = path.startsWith('/tasks/');
   const isPermaTaskPage = path.startsWith('/perma/');
   const isArchivedTaskPage = path.startsWith('/archive/') && path !== '/archive';

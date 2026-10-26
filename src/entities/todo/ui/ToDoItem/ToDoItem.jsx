@@ -14,7 +14,7 @@ const ToDoItem = (props) => {
   const {
     firstIncompleteTaskRef,
     firstIncompleteTaskId,
-    archiveTask,           // ← было deleteTask
+    archiveTask,           
     toggleTaskComplete,
     disappearingTaskId,
     appearingTaskId,
@@ -52,7 +52,7 @@ const ToDoItem = (props) => {
         className={styles.deleteButton}
         aria-label="Archive"
         title="Archive"
-        onClick={() => archiveTask(id)}    // ← было deleteTask(id)
+        onClick={() => archiveTask(id)}    
         type="button"
       >
         <svg
