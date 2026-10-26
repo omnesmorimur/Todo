@@ -9,7 +9,21 @@
     rel="stylesheet">
   <link rel="shortcut icon" href="./src/assets/icons/favicon.ico" type="image/x-icon">
   <title>To Do List React App</title>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+      k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=113811484', 'ym');
 
+    ym(113811484, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: "dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true });
+  </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/113811484" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+  <!-- /Yandex.Metrika counter -->
   <style>
     .app-loader {
       position: fixed;
@@ -24,7 +38,7 @@
       z-index: 10000;
       transition: opacity 0.3s ease;
     }
-  
+
     .app-loader .spinner {
       width: 40px;
       height: 40px;
@@ -33,34 +47,39 @@
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-  
+
     @keyframes spin {
       to {
         transform: rotate(360deg);
       }
     }
-  
+
     .app-loader.hide {
       opacity: 0;
       pointer-events: none;
     }
-  
+
     @media (prefers-color-scheme: dark) {
       .app-loader {
         background-color: #1E1E1E;
       }
-  
+
       .app-loader .spinner {
         border-color: #3C3C3C;
         border-top-color: #FF6600;
       }
     }
   </style>
-  <script type="module" crossorigin src="/Todo/assets/index-HV4FNdkc.js"></script>
+  <script type="module" crossorigin src="/Todo/assets/index-C7xqHTj_.js"></script>
   <link rel="stylesheet" crossorigin href="/Todo/assets/index-Bnjp_zxF.css">
 </head>
 
 <body>
+  <!-- Yandex.Metrika counter noscript -->
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/113811484" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+  <!-- /Yandex.Metrika counter noscript -->
   <div id="root"></div>
   <div id="app-loader" class="app-loader">
     <div class="spinner"></div>
